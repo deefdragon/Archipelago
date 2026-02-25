@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState, Entrance, Region
 
-from .data_rooms import rooms, room_layout_lists
+from .data_rooms import rooms, core_rooms, room_layout_lists
 from .data_items import sanctum_keys
 from .constants import *
 
@@ -528,168 +528,43 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         "Grounds To The Well",
         lambda state: state.has("Pump Room", world.player),
     )
-    
-def simple_reachability_test(room: str, state: CollectionState, world: BluePrinceWorld) -> bool:
-    """
-    Uses a simple check of how many rooms are in the pool to determine if a pick position is reachable. Only used if ENABLE_ADVANCED_ROOM_ACCESS_LOGIC is False.
-    """
-    room_data = rooms[room]
-    positions_types = room_data[ROOM_PICK_POSITIONS_KEY]
 
-    for pt in positions_types:
-        if state.has(pt, world.player):
+global memo
+memo = set()
+
+def matches_minimum_inventory(required: list[tuple[int]], inventory: dict[str, int]) -> bool:
+    inv = tuple(inventory[k] for k in inventory)
+    for req in required:
+        if all(inv[i] < req[i] for i in range(4)):
             return True
         
-    pool_count = state.count_from_list(room_layout_lists[INNER_ROOM_KEY], world.player)
-
-    for pt in positions_types:
-        targets = POSITION_CHECKS[pt]
-
-        for target in targets:
-            target_count = target[2] if len(target) > 2 else 100_000
-            if pool_count >= target_count:
-                state.collect(pt, world.player)
-                return True
-
+    return False
 
 def can_reach_pick_position(room: str, world: BluePrinceWorld, state: CollectionState) -> bool:
     """
     Use depth first search to determine if a the pick position is reachable with the current inventory.
     """
 
-    if not ENABLE_ADVANCED_ROOM_ACCESS_LOGIC:
-        return simple_reachability_test(room, state, world)
-
-    # TODO: figure out how to cache unreachable pick locations and clear cache when a new region logic pass starts
-
+    if room not in core_rooms and not state.has(room, world.player):
+        return False
+    
     room_data = rooms[room]
     
     positions_types = room_data[ROOM_PICK_POSITIONS_KEY]
-
-    for pt in positions_types:
-        if state.has(pt, world.player):
-            return True
 
     inventory = {
         ROOM_LAYOUT_TYPE_X: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_X], world.player),
         ROOM_LAYOUT_TYPE_T: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_T], world.player),
         ROOM_LAYOUT_TYPE_I: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_I], world.player),
         ROOM_LAYOUT_TYPE_J: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_J], world.player),
-        # ROOM_LAYOUT_TYPE_D: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_D], world.player),
     }
 
-    # This check shouldn't be necessary in theory, but adding it in case we later want to check if a room not in the pool is reachable for some reason.
-    if (state.has(room, world.player) and room_data[ROOM_LAYOUT_TYPE_KEY] in [ROOM_LAYOUT_TYPE_I, ROOM_LAYOUT_TYPE_J, ROOM_LAYOUT_TYPE_T, ROOM_LAYOUT_TYPE_X]):
+    if (room_data[ROOM_LAYOUT_TYPE_KEY] in [ROOM_LAYOUT_TYPE_I, ROOM_LAYOUT_TYPE_J, ROOM_LAYOUT_TYPE_T, ROOM_LAYOUT_TYPE_X]):
         inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] -= 1
 
-    start = (3, 1)
-
     for pt in positions_types:
-        targets = POSITION_CHECKS[pt]
-
-        visited = set()
-        memo = set()
-
-        visited.add(start)
-
-        for target in targets:
-            target_cell = target[0]
-            target_sides = [OPPOSITE[x] for x in target[1]]
-
-            for d in [N, E, S, W]:
-                if not 0b1111 & d:
-                    continue
-                new_x, new_y = start[0] + DIRS[d][0], start[1] + DIRS[d][1]
-                remaining = inventory.copy()
-                if depth_first_tile_search(new_x, new_y, d, remaining, visited):
-                    state.collect(pt, world.player)
-                    return True
-    
+        if matches_minimum_inventory(POSITION_MINIMUM_PIECES[pt], inventory):
+            return True
+        
     # TODO: add an additional pass for when Foundation is in pool
-
-    def get_shape_for_tile_type(tile_type):
-        if tile_type == ROOM_LAYOUT_TYPE_I:
-            return [N | S, E | W]
-        elif tile_type == ROOM_LAYOUT_TYPE_J:
-            return [N | E, E | S, S | W, W | N]
-        elif tile_type == ROOM_LAYOUT_TYPE_T:
-            return [N | E | S, E | S | W, S | W | N, W | N | E]
-        elif tile_type == ROOM_LAYOUT_TYPE_X:
-            return [N | E | S | W]
-        else:
-            return []
-
-    def inside(x, y):
-        return 1 <= x <= 9 and 1 <= y <= 9
-
-    def is_valid_move(x, y, shape):
-        for d in DIRS:
-            if shape & d:
-                nx = x + DIRS[d][0]
-                ny = y + DIRS[d][1]
-                if not inside(nx, ny) and not ((x, y) in target_cell and d in target_sides):
-                    return False
-        return True
-    
-    # Deconstruct the shape mask, except for the incoming side
-    def get_sides_for_shape(shape, side):
-        result = []
-        if shape == 0:
-            return result
-        
-        if shape & N and side != N:
-            result.append(N)
-        if shape & E and side != E:
-            result.append(E)
-        if shape & S and side != S:
-            result.append(S)
-        if shape & W and side != W:
-            result.append(W)
-
-        return result
-    
-    def depth_first_tile_search(x, y, side, inventory, visited):
-        state_key = (x, y, side,
-                     inventory[ROOM_LAYOUT_TYPE_I],
-                     inventory[ROOM_LAYOUT_TYPE_J],
-                     inventory[ROOM_LAYOUT_TYPE_T],
-                     inventory[ROOM_LAYOUT_TYPE_X])
-        if state_key in memo:
-            return False
-        if (x, y) == target_cell:
-            # print(f"Reached target cell {target_cell} with side {get_dir_name(side)}")
-            if side in target_sides:
-                return True
-        
-        visited.add((x, y))
-
-        if not inside(x, y):
-            visited.remove((x, y))
-            memo.add(state_key)
-            return False
-
-        # print(f"At {(x, y)} coming from {get_dir_name(side)}, trying to move to {(new_x, new_y)}, inventory: {inventory}")
-        
-        for piece_type in inventory:
-            if inventory[piece_type] > 0:
-                for shape in get_shape_for_tile_type(piece_type):
-                    if not shape & OPPOSITE[side]:
-                        continue
-
-                    inventory[piece_type] -= 1
-
-                    for new_side in get_sides_for_shape(shape, OPPOSITE[side]):
-                        new_x, new_y = x + DIRS[new_side][0], y + DIRS[new_side][1]
-                        if (new_x, new_y) not in visited and is_valid_move(new_x, new_y, shape):
-
-                            if depth_first_tile_search(new_x, new_y, new_side, inventory, visited):
-                                return True
-                    
-                    inventory[piece_type] += 1
-        
-        visited.remove((x, y))
-        memo.add(state_key)
-
-        return False
-    
     return False
