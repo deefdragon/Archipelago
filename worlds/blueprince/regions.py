@@ -232,8 +232,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                 entrance_hall.connect(
                     room,
                     f"Entrance Hall {k}",
-                    lambda state, key=k: state.has(key, world.player) and
-                        can_reach_pick_position(key, world, state),
+                    lambda state, key=k: can_reach_pick_position(key, world, state),
                 )
 
     foundation.connect(
@@ -421,8 +420,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     garage.connect(
         west_path,
         "Garage To West Path",
-        lambda state: state.has("Garage", world.player)
-        and (state.has("Utility Closet", world.player) or state.has("Boiler Room", world.player)),
+        lambda state: state.has("Utility Closet", world.player) or state.has("Boiler Room", world.player),
     )
     foundation_elevator.connect(
         basement,
@@ -547,7 +545,7 @@ def can_reach_pick_position(room: str, world: BluePrinceWorld, state: Collection
 
     total_inventory = sum(inventory.values())
 
-    if (room_data[ROOM_LAYOUT_TYPE_KEY] in [ROOM_LAYOUT_TYPE_I, ROOM_LAYOUT_TYPE_J, ROOM_LAYOUT_TYPE_T, ROOM_LAYOUT_TYPE_X]):
+    if (room_data[ROOM_LAYOUT_TYPE_KEY] in inventory and inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] > 0):
         inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] -= 1
 
     for pt in positions_types:
@@ -561,7 +559,7 @@ def can_reach_pick_position(room: str, world: BluePrinceWorld, state: Collection
 def matches_minimum_inventory(required: list[tuple[int]], inventory: dict[str, int]) -> bool:
     inv = tuple(inventory[k] for k in inventory)
     for req in required:
-        if all(inv[i] < req[i] for i in range(4)):
+        if all(inv[i] >= req[i] for i in range(4)):
             return True
         
     return False

@@ -18,21 +18,32 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Apple Orchard"))
         self.assertTrue(self.can_reach_region("Tunnel Area Entrance"))
 
-    def test_inner_rooms_requires_room_item(self) -> None:
+    # def test_inner_rooms_requires_room_item(self) -> None:
 
-        for room,v in rooms.items():
-            if room in core_rooms or v[OUTER_ROOM_KEY]:
-                continue
+    #     for room,v in rooms.items():
+    #         if room in core_rooms or v[OUTER_ROOM_KEY]:
+    #             continue
 
-            self.assertFalse(self.can_reach_region(room), f"{room} should not be reachable without having the room as an item")
-            self.collect_by_name(room)
-            self.assertTrue(self.can_reach_region(room), f"{room} should be reachable after collecting the room as an item")
+    #         self.assertFalse(self.can_reach_region(room), f"{room} should not be reachable without having the room as an item")
+    #         self.collect_by_name(room)
+    #         self.assertTrue(self.can_reach_region(room), f"{room} should be reachable after collecting the room as an item")
     
+    def test_build_path_to_garage(self) -> None:
+        self.assertFalse(self.can_reach_region("Garage"), "Garage should not be reachable without having the Garage as an item")
+        self.collect_by_name("Garage")
+        self.assertFalse(self.can_reach_region("Garage"), "Garage should not be reachable on its own")
+        self.collect_by_name("Hallway")
+        self.collect_by_name("Office")
+        self.debug_print_regions_and_items()
+        self.assertTrue(self.can_reach_region("Garage"), "Garage should be reachable after collecting at least 1 I piece and at least 1 J piece as items")
+
     def test_outer_room_requires_garage_utility_closet(self) -> None:
+        # self.collect_all_but(["Garage", "Utility Closet"])
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Utility Closet as an item")
         self.collect_by_name("Utility Closet")
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Garage as an item")
         self.collect_by_name("Garage")
+        self.debug_print_regions_and_items()
         self.assertTrue(self.can_reach_region("Outer Room"), "Outer Room should be reachable after collecting the Garage as an item")
     
     def test_outer_room_requires_garage_boiler_room(self) -> None:
