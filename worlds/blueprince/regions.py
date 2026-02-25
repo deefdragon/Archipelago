@@ -7,6 +7,7 @@ from BaseClasses import CollectionState, Entrance, Region
 from .data_rooms import rooms, core_rooms, room_layout_lists
 from .data_items import sanctum_keys
 from .constants import *
+from .room_min_pieces import *
 
 if TYPE_CHECKING:
     from .world import BluePrinceWorld
@@ -318,10 +319,6 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         reservoir_gear_side,
         "Basement To Reservoir Gear Side",
     )
-    # reservoir_gear_side.connect(
-    #     basement,
-    #     "Reservoir Gear Side To Basement",
-    # )
     reservoir_gear_side.connect(
         rotating_gear,
         "Reservoir Gear Side To Rotating Gear",
@@ -529,20 +526,9 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         lambda state: state.has("Pump Room", world.player),
     )
 
-global memo
-memo = set()
-
-def matches_minimum_inventory(required: list[tuple[int]], inventory: dict[str, int]) -> bool:
-    inv = tuple(inventory[k] for k in inventory)
-    for req in required:
-        if all(inv[i] < req[i] for i in range(4)):
-            return True
-        
-    return False
-
 def can_reach_pick_position(room: str, world: BluePrinceWorld, state: CollectionState) -> bool:
     """
-    Use depth first search to determine if a the pick position is reachable with the current inventory.
+    Use pre-calculated tables to determine if a the pick position is reachable with the current inventory.
     """
 
     if room not in core_rooms and not state.has(room, world.player):
@@ -559,12 +545,23 @@ def can_reach_pick_position(room: str, world: BluePrinceWorld, state: Collection
         ROOM_LAYOUT_TYPE_J: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_J], world.player),
     }
 
+    total_inventory = sum(inventory.values())
+
     if (room_data[ROOM_LAYOUT_TYPE_KEY] in [ROOM_LAYOUT_TYPE_I, ROOM_LAYOUT_TYPE_J, ROOM_LAYOUT_TYPE_T, ROOM_LAYOUT_TYPE_X]):
         inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] -= 1
 
     for pt in positions_types:
+        if total_inventory < POSITION_MINIMUM_TOTAL_PIECES[pt]:
+            continue
         if matches_minimum_inventory(POSITION_MINIMUM_PIECES[pt], inventory):
             return True
         
-    # TODO: add an additional pass for when Foundation is in pool
+    return False
+
+def matches_minimum_inventory(required: list[tuple[int]], inventory: dict[str, int]) -> bool:
+    inv = tuple(inventory[k] for k in inventory)
+    for req in required:
+        if all(inv[i] < req[i] for i in range(4)):
+            return True
+        
     return False
