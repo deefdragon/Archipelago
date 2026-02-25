@@ -38,7 +38,7 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Garage"), "Garage should be reachable after collecting at least 1 I piece and at least 1 J piece as items")
 
     def test_outer_room_requires_garage_utility_closet(self) -> None:
-        # self.collect_all_but(["Garage", "Utility Closet"])
+        self.collect_all_but(["Garage", "Utility Closet", "Boiler Room"])
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Utility Closet as an item")
         self.collect_by_name("Utility Closet")
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Garage as an item")
@@ -47,15 +47,16 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Outer Room"), "Outer Room should be reachable after collecting the Garage as an item")
     
     def test_outer_room_requires_garage_boiler_room(self) -> None:
+        self.collect_all_but(["Garage", "Boiler Room", "Utility Closet"])
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Garage as an item")
         self.collect_by_name("Garage")
-
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Boiler Room as an item")
-
         self.collect_by_name("Boiler Room")
         self.assertTrue(self.can_reach_region("Outer Room"), "Outer Room should be reachable after collecting the Garage as an item")
 
     def test_outer_rooms_require_room_item(self) -> None:
+        self.collect_by_name("Hallway")
+        self.collect_by_name("Office")
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Garage as an item")
         self.collect_by_name("Garage")
         self.collect_by_name("Utility Closet")
@@ -82,6 +83,8 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should be reachable after collecting the Boiler Room as an item")
 
     def test_the_precipice_requires_gas_valves(self) -> None:
+        self.collect_by_name("Hallway")
+        self.collect_by_name("Office")
         self.assertFalse(self.can_reach_region("The Precipice"), "The Precipice should not be reachable without having all Gas Valves")
         self.collect_by_name("Garage")
         self.collect_by_name("Utility Closet")
@@ -137,6 +140,7 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Aries Court"), "Aries Court should be reachable after having all Chess Pieces")
     
     def test_basement_requires_the_foundation_and_basement_key(self) -> None:
+        self.collect_by_name("Hallway")
         self.assertFalse(self.can_reach_region("Basement"), "Basement should not be reachable without having the Foundation")
         self.collect_by_name("The Foundation")
         self.assertFalse(self.can_reach_region("Basement"), "Basement should not be reachable without having the Basement Key")
