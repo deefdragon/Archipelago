@@ -258,7 +258,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         "Private Drive To Blackbridge Grotto",
         lambda state: state.has("Boiler Room", world.player) and state.has("Laboratory", world.player),
     )
-    private_drive.connect(grounds, "Private Drive To Frounds")
+    private_drive.connect(grounds, "Private Drive To Grounds")
     blakbridge_grotto.connect(
         orindian_ruins,
         "Blackbridge Grotto To Orindian Ruins",
@@ -318,10 +318,10 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         reservoir_gear_side,
         "Basement To Reservoir Gear Side",
     )
-    reservoir_gear_side.connect(
-        basement,
-        "Reservoir Gear Side To Basement",
-    )
+    # reservoir_gear_side.connect(
+    #     basement,
+    #     "Reservoir Gear Side To Basement",
+    # )
     reservoir_gear_side.connect(
         rotating_gear,
         "Reservoir Gear Side To Rotating Gear",
@@ -380,10 +380,12 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     abandoned_mine.connect(
         excavation_tunnel,
         "Abandoned Mine To Excavation Tunnel",
+        lambda state: state.can_reach_region("Reservoir Fountain Side", world.player)
     )
     excavation_tunnel.connect(
         abandoned_mine,
         "Excavation Tunnel To Abandoned Mine",
+        lambda state: state.can_reach_region("Reservoir Fountain Side", world.player)
     )
     excavation_tunnel.connect(
         torch_chamber,
@@ -400,7 +402,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     the_well.connect(
         reservoir_fountain_side,
         "Well To Reservoir Fountain Side",
-        lambda state: state.has("Pump Room", world.player) and state.has("BASEMENT KEY", world.player),
+        lambda state: state.has("BASEMENT KEY", world.player),
     )
 
     west_path.connect(
@@ -433,7 +435,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     torch_chamber.connect(
         the_precipice,
         "Torch Chamber To Precipice",
-        lambda state: state.has("Burning Glass Access", world.player) and state.has("TORCH", world.player),
+        lambda state: state.has("Burning Glass", world.player) or state.has("TORCH", world.player),
     )
 
     grounds.connect(
@@ -521,6 +523,12 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         lambda state: state.has("Secret Passage", world.player) and state.has("Watering Can", world.player),
     )
 
+    grounds.connect(
+        the_well,
+        "Grounds To The Well",
+        lambda state: state.has("Pump Room", world.player),
+    )
+    
 def simple_reachability_test(room: str, state: CollectionState, world: BluePrinceWorld) -> bool:
     """
     Uses a simple check of how many rooms are in the pool to determine if a pick position is reachable. Only used if ENABLE_ADVANCED_ROOM_ACCESS_LOGIC is False.

@@ -95,7 +95,7 @@ LOCATION_REQUIREMENT_TYPE_COUNT_LOCATIONS_ACCESS = "count_locations_access"
 
 # Enable room logic, when set to true, allows the rooms to be loaded into the world as items to be found.
 # When false, "all rooms" will be available to the player "at the start"
-ENABLE_ROOM_LOGIC = False
+ENABLE_ROOM_LOGIC = True
 
 # Enable advanced logic for room access checks, when set to true, use dfs to ensure a room is reachable
 # When false, only check if the pool has the required number of rooms to reach the room
