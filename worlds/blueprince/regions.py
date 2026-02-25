@@ -551,7 +551,7 @@ def can_reach_pick_position(room: str, world: BluePrinceWorld, state: Collection
         inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] -= 1
 
     for pt in positions_types:
-        if total_inventory < POSITION_MINIMUM_TOTAL_PIECES[pt]:
+        if pt not in POSITION_MINIMUM_PIECES or total_inventory < POSITION_MINIMUM_TOTAL_PIECES[pt]:
             continue
         if matches_minimum_inventory(POSITION_MINIMUM_PIECES[pt], inventory):
             return True
