@@ -157,11 +157,11 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                     room,
                     "Entrance Hall Antechamber",
                     lambda state: (
-                        state.has("Great Hall", world.player)
-                        or (state.has("Greenhouse", world.player) and state.has("BROKEN LEVER", world.player))
-                        or state.has("Mechanarium", world.player)
-                        or (state.has("Weight Room", world.player) and state.has("Power Hammer", world.player))
-                        or state.has("Secret Garden", world.player)
+                        state.can_reach_region("Great Hall", world.player)
+                        or (state.can_reach_region("Greenhouse", world.player) and state.has("BROKEN LEVER", world.player))
+                        or state.can_reach_region("Mechanarium", world.player)
+                        or (state.can_reach_region("Weight Room", world.player) and state.has("Power Hammer", world.player))
+                        or state.can_reach_region("Secret Garden", world.player)
                         # This check is redundant
                         # or (state.has("Secret Garden", world.player) and state.has("Power Hammer", world.player))
                     ) and can_reach_pick_position("Antechamber", world, state),
@@ -177,53 +177,58 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                     room,
                     "Library To Bookshop",
                     lambda state: state.has("Bookshop", world.player),
-                )
+                ) # Can only be drafted from the library, so only requires having the bookshop as an item.
             elif k == "The Armory":
                 entrance_hall.connect(
                     room,
                     "Entrance Hall The Armory",
-                    lambda state: state.has("The Armory", world.player) and 
-                        state.can_reach_region("Aries Court", world.player) and 
-                        can_reach_pick_position("The Armory", world, state),
+                    lambda state: state.can_reach_region("Aries Court", world.player) and can_reach_pick_position("The Armory", world, state),
                 )
+            #
             # This is only necessary if we track the day count
+            #
             # elif k == "Gallery":
             #     entrance_hall.connect(
             #         room,
             #         f"Entrance Hall {k}",
             #         lambda state: state.has(k, world.player) and state.can_reach_region("Room 46", world.player),
             #     ) # Has reached Room 46 or Day Count is >= 46, but < 363; Very rarily possible without either with a Silver Key, but that seems to be a bug
-            elif k == "Trophy Room":
-                entrance_hall.connect(
-                    room,
-                    "Entrance Hall Trophy Room",
-                    lambda state: state.has("Trophy Room", world.player) and
-                        (
-                            state.can_reach_region("Room 46", world.player) or 
-                            state.can_reach_location("Full House Trophy", world.player) or 
-                            state.can_reach_location("Trophy of Invention", world.player) or 
-                            state.can_reach_location("Trophy of Drafting", world.player) or 
-                            state.can_reach_location("Trophy of Wealth", world.player)
-                        ) and can_reach_pick_position("Trophy Room", world, state),
-                ) # Has reached Room 46 or has one of the 4 listed Trophies
+
+            #
+            # Commenting this out because it breaks tests when the trophies aren't set up yet
+            #
+            # elif k == "Trophy Room":
+            #     entrance_hall.connect(
+            #         room,
+            #         "Entrance Hall Trophy Room",
+            #         lambda state: (
+            #                 state.can_reach_region("Room 46", world.player) or 
+            #                 state.can_reach_location("Full House Trophy", world.player) or 
+            #                 state.can_reach_location("Trophy of Invention", world.player) or 
+            #                 state.can_reach_location("Trophy of Drafting", world.player) or 
+            #                 state.can_reach_location("Trophy of Wealth", world.player)
+            #             ) and can_reach_pick_position("Trophy Room", world, state),
+            #     ) # Has reached Room 46 or has one of the 4 listed Trophies
             elif k == "Gift Shop":
                 entrance_hall.connect(
                     room,
                     "Entrance Hall Gift Shop",
-                    lambda state: state.has("Gift Shop", world.player) and 
-                        state.can_reach_region("Room 46", world.player) and
-                        can_reach_pick_position("Gift Shop", world, state),
+                    lambda state: state.can_reach_region("Room 46", world.player) and can_reach_pick_position("Gift Shop", world, state),
                 ) # Has reached Room 46
             elif k == "Room 8":
                 entrance_hall.connect(
                     room,
                     "Entrance Hall Room 8",
-                    lambda state: state.has("Room 8", world.player) and 
-                        (
-                            state.has("Gallery", world.player) or 
-                            state.has("Lost And Found", world.player)
-                        ) and can_reach_pick_position("Room 8", world, state),
-                ) # Can get Key 8
+                    lambda state: state.has("KEY 8", world.player) and can_reach_pick_position("Room 8", world, state),
+                ) # Has Key 8
+                # TODO: Add location for Key 8 in Gallery, maybe in Lost and Found as well
+            elif k == "Secret Garden":
+                entrance_hall.connect(
+                    room,
+                    "Entrance Hall Secret Garden",
+                    lambda state: state.has("SECRET GARDEN KEY", world.player) and can_reach_pick_position("Secret Garden", world, state),
+                )
+            
             # TODO: Add Her Ladyship's Chamber, it has weird requirements
             elif k == "Entrance Hall":
                 continue
@@ -251,12 +256,12 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     campsite.connect(
         gemstone_cavern,
         "Campsite To Gemstone Cavern",
-        lambda state: state.has("Utility Closet", world.player),
+        lambda state: state.can_reach_region("Utility Closet", world.player),
     )  # Rules of are found in office emails. Solution is in office emails. May be able to adjust pattern?
     private_drive.connect(
         blakbridge_grotto,
         "Private Drive To Blackbridge Grotto",
-        lambda state: state.has("Boiler Room", world.player) and state.has("Laboratory", world.player),
+        lambda state: state.can_reach_region("Boiler Room", world.player) and state.can_reach_region("Laboratory", world.player),
     )
     private_drive.connect(grounds, "Private Drive To Grounds")
     blakbridge_grotto.connect(
@@ -420,12 +425,12 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     garage.connect(
         west_path,
         "Garage To West Path",
-        lambda state: state.has("Utility Closet", world.player) or state.has("Boiler Room", world.player),
+        lambda state: state.can_reach_region("Utility Closet", world.player) or state.can_reach_region("Boiler Room", world.player),
     )
     foundation_elevator.connect(
         basement,
         "Foundation Elevator To Basement",
-        lambda state: state.has("The Foundation", world.player) and state.has("BASEMENT KEY", world.player),
+        lambda state: state.can_reach_region("The Foundation", world.player) and state.has("BASEMENT KEY", world.player),
     )
     torch_chamber.connect(
         the_precipice,
@@ -441,7 +446,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         tunnel_area_post_crates,
         "Tunnel Area Entrance To Tunnel Area Post Crates",
         lambda state: state.has("Satellite Raised", world.player)
-        and (state.has("Laboratory", world.player) or state.has("Blackbridge Grotto Access", world.player)),
+        and (state.can_reach_region("Laboratory", world.player) or state.can_reach_region("Blackbridge Grotto", world.player)),
     )
     tunnel_area_post_crates.connect(
         tunnel_area_post_normal_locked_door,
@@ -465,7 +470,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     tunnel_area_post_weak_wall.connect(
         tunnel_area_post_red_door,
         "Tunnel Area Post Weak Wall to Tunnel Area Post Red Door",
-        lambda state: state.has("Boiler Room", world.player),
+        lambda state: state.can_reach_region("Boiler Room", world.player),
     )
     tunnel_area_post_red_door.connect(
         tunnel_area_post_candle_door,

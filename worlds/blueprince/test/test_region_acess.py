@@ -76,15 +76,17 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Gemstone Cavern"), "Gemstone Caverns should be reachable after collecting the Utility Closet as an item")
 
     def test_blackbridge_grotto_requires_boiler_room_and_laboratory(self) -> None:
+        self.collect_by_name("Hallway")
         self.assertFalse(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should not be reachable without having the Boiler Room as an item")
         self.collect_by_name("Boiler Room")
         self.assertFalse(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should not be reachable without having the Laboratory as an item")
         self.collect_by_name("Laboratory")
+        self.debug_print_regions_and_items()
         self.assertTrue(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should be reachable after collecting the Boiler Room as an item")
 
     def test_the_precipice_requires_gas_valves(self) -> None:
         self.collect_by_name("Hallway")
-        self.collect_by_name("Office")
+        self.collect_by_name("Pantry")
         self.assertFalse(self.can_reach_region("The Precipice"), "The Precipice should not be reachable without having all Gas Valves")
         self.collect_by_name("Garage")
         self.collect_by_name("Utility Closet")
@@ -95,6 +97,7 @@ class TestRegionAcess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("The Precipice"), "The Precipice should be reachable after having all Gas Valves")
     
     def test_orindian_ruins_requires_microchips(self) -> None:
+        self.collect_by_name("Hallway")
         self.collect_by_name("Boiler Room")
         self.collect_by_name("Laboratory")
         self.assertFalse(self.can_reach_region("Orindian Ruins"), "Orindian Ruins should not be reachable without having all Microchips")
@@ -148,4 +151,8 @@ class TestRegionAcess(BluePrinceTestBase):
         self.debug_print_regions_and_items()
         self.assertTrue(self.can_reach_region("Basement"), "Basement should be reachable after having the Foundation and Basement Key")
     
-    
+    def test_room_8_requires_key_8(self) -> None:
+        self.collect_all_but(["KEY 8"])
+        self.assertFalse(self.can_reach_region("Room 8"), "Room 8 should not be reachable without having Key 8")
+        self.collect_by_name("KEY 8")
+        self.assertTrue(self.can_reach_region("Room 8"), "Room 8 should be reachable after having Key 8")
