@@ -7,7 +7,7 @@ from worlds.AutoWorld import World
 # Imports of your world's files must be relative.
 from . import items, locations, regions, rules, web_world
 from . import (
-    options as blue_prince_optionss,
+    options as blue_prince_options,
 )  # rename due to a name conflict with World.options
 
 
@@ -25,8 +25,8 @@ class BluePrinceWorld(World):
     web = web_world.BluePrinceWebWorld()
 
     # Set the Options
-    options_dataclass = blue_prince_optionss.BluePrinceOptions
-    options: blue_prince_optionss.BluePrinceOptions
+    options_dataclass = blue_prince_options.BluePrinceOptions
+    options: blue_prince_options.BluePrinceOptions
 
     # Our world class must have a static location_name_to_id and item_name_to_id defined.
     # We define these in regions.py and items.py respectively, so we just set them here.
@@ -63,3 +63,27 @@ class BluePrinceWorld(World):
     #     return self.options.as_dict(
     #         "hard_mode", "hammer", "extra_starting_chest", "confetti_explosiveness", "player_sprite"
     #     )
+
+    # Set up the ability for UT run without needing the yaml.
+    ut_can_gen_without_yaml = True
+
+    def generate_early(self) -> None:
+        # implement .yaml-less Universal Tracker support
+        if hasattr(self.multiworld, "generation_is_fake"):
+            if hasattr(self.multiworld, "re_gen_passthrough"):
+                if "Blue Prince" in self.multiworld.re_gen_passthrough:
+                    slot_data = self.multiworld.re_gen_passthrough["Blue Prince"]
+                    self.options.locked_trunks = slot_data["locked_trunks"]
+
+            return
+
+    def fill_slot_data(self):
+        slot_data = self.options.as_dict(
+            "death_link_type",
+            "death_link_grace",
+            "death_link_monk_exception",
+            "locked_trunks",
+            "goal_type",  # changes AP items, and how client/mod implements Translator
+        )
+
+        return slot_data
