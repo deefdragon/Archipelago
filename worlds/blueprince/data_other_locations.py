@@ -744,7 +744,7 @@ standard_item_pickup = {
                 "Boiler Room",
             ]],
             options=rare_logic_filter
-        ) | AdvancedExperimentRule() | TradingPostRule("SHOVEL") | SpiralOfStarsRule() | 
+        ) | TradingPostRule("SHOVEL") | SpiralOfStarsRule() | # Also from AdvancedExperimentRule, but that requires SHOVEL
         UpgradedRoomRule("Mail Room", "Freight Mail") | UpgradedRoomRule("Spare Room", "Spare Greenroom") | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Veranda") | UpgradedRoomRule("Spare Room", "Spare Terrace"),
     },
     "SLEDGE HAMMER First Pickup": {

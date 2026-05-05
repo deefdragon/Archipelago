@@ -103,7 +103,7 @@ class CanReachItemLocation(Rule["BluePrinceWorld"], game="Blue Prince"):
 
         if self.location in armory_items:
             return (Has(self.location) & CanReachRegion("The Armory")).resolve(world)
-        
+         
         for location, data in locations.items():
             if LOCATION_ITEM_KEY in data and data[LOCATION_ITEM_KEY] == self.location:
                 return (Has(self.location) & CanReachLocation(location, parent_region_name=self.parent_region_name)).resolve(world)
@@ -228,7 +228,8 @@ class AdvancedExperimentRule(Rule["BluePrinceWorld"], game="Blue Prince"):
     @override
     def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
         return And(CanReachRegion("Laboratory"), Has("Satellite Raised"), options=extreme_logic_filter).resolve(world)
-    
+
+prev_trading_post_offers : set[str] = set()
 @dataclasses.dataclass()
 class TradingPostRule(Rule["BluePrinceWorld"], game="Blue Prince"):
     """
@@ -238,11 +239,15 @@ class TradingPostRule(Rule["BluePrinceWorld"], game="Blue Prince"):
 
     @override
     def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
-        return And(CanReachRegion("Trading Post"), 
+        
+        prev_trading_post_offers.add(self.item_name)
+        rule = And(CanReachRegion("Trading Post"), 
                 Or(
-                    *[CanReachItemLocation(item) for item in self.get_trading_post_offers(self.item_name)]
+                    *[CanReachItemLocation(item) for item in self.get_trading_post_offers(self.item_name) if self.item_name not in prev_trading_post_offers],
                 ),
                 options=complex_logic_filter).resolve(world)
+        prev_trading_post_offers.remove(self.item_name)
+        return rule
     
     # Trading can get any item of the same tier or lower
     def get_trading_post_offers(self, give: str) -> list[str]:
@@ -327,7 +332,7 @@ class CarTrunkRule(Rule["BluePrinceWorld"], game="Blue Prince"):
 
     @override
     def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
-        return (CanReachRegion("Garage") & Has("CAR KEYS")).resolve(world)
+        return (CanReachRegion("Garage") & CanReachItemLocation("CAR KEYS")).resolve(world)
     
 @dataclasses.dataclass()
 class SpiralOfStarsRule(Rule["BluePrinceWorld"], game="Blue Prince"):
