@@ -14,8 +14,8 @@ from .options import ItemLogicMode
 from .data_items import *
 
 default_logic_filter = [OptionFilter(ItemLogicMode, ItemLogicMode.option_default)]
-rare_logic_filter = [OptionFilter(ItemLogicMode, [ItemLogicMode.option_rare, ItemLogicMode.option_rare_complex, ItemLogicMode.option_extreme], operator="contains")]
-complex_logic_filter = [OptionFilter(ItemLogicMode, [ItemLogicMode.option_complex, ItemLogicMode.option_rare_complex, ItemLogicMode.option_extreme], operator="contains")]
+rare_logic_filter = [OptionFilter(ItemLogicMode, [ItemLogicMode.option_rare, ItemLogicMode.option_rare_complex, ItemLogicMode.option_extreme], operator="in")]
+complex_logic_filter = [OptionFilter(ItemLogicMode, [ItemLogicMode.option_complex, ItemLogicMode.option_rare_complex, ItemLogicMode.option_extreme], operator="in")]
 extreme_logic_filter = [OptionFilter(ItemLogicMode, ItemLogicMode.option_extreme)]
 
 def set_all_rules(world: BluePrinceWorld) -> None:
@@ -95,15 +95,8 @@ class CanReachItemLocation(Rule["BluePrinceWorld"], game="Blue Prince"):
     parent_region_name: str = ""
     @override
     def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
-        from .data_other_locations import locations, armory_items, vault_keys, workshop_items
+        from .data_other_locations import locations, armory_items
         loc_name = self.location + " First Pickup"
-        if self.location in workshop_items:
-            loc_name = self.location + " First Craft"
-        elif self.location in vault_keys:
-            loc_name = self.location
-
-        if self.parent_region_name == "":
-            self.parent_region_name = locations[loc_name][LOCATION_ROOM_KEY] if loc_name in locations else ""
 
         if loc_name in locations:
             return (Has(self.location) & CanReachLocation(loc_name, parent_region_name=self.parent_region_name)).resolve(world)
@@ -291,7 +284,7 @@ class DigSpotRule(Rule["BluePrinceWorld"], game="Blue Prince"):
                 "Secret Garden",
                 "Root Cellar",
                 "Hovel",
-                "Kennel",
+                "The Kennel",
                 "Dovecote",
                 "Solarium",
                 "Tunnel",

@@ -58,6 +58,8 @@ def create_all_locations(world: BluePrinceWorld) -> None:
 
 def create_regular_locations(world: BluePrinceWorld) -> None:
 
+    locations_to_setup : dict[str, Rule] = dict()
+
     armory = world.get_region("The Armory")
     LOCATIONS_BY_GROUPS["Armory Purchases"] = set()
     # Ignoring chance to get Knight's Shield by digging with Jack Hammer for now.
@@ -103,8 +105,6 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         # elif room_key == "The Pool":
         #     for idx in range(1, trunk_count + 1): 
         #         world.set_rule(world.get_location(f"The Pool Locked Trunk {idx}"), lambda state: state.can_reach_region("Gift Shop", world.player))
-    
-    locations_to_setup = []
 
     for k, v in locations.items():
 
@@ -125,8 +125,7 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
 
             reg.locations.append(loc)
 
-
-            world.set_rule(world.get_location(k), get_location_rule(k))
+            locations_to_setup[k] = get_location_rule(k)
             continue
 
         if NONSANITY_LOCATION_KEY in v and world.options.room_draft_sanity == False and k in floorplans.keys():
@@ -138,7 +137,7 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
 
                 reg.locations.append(loc)
 
-                world.set_rule(world.get_location(k), get_location_rule(k))
+                locations_to_setup[k] = get_location_rule(k)
                 continue
         if LOCATION_ITEM_KEY in v and world.options.key_sanity == False and k in keys.keys():
             if v[LOCATION_ITEM_KEY] != STARTING_INVENTORY:
@@ -149,16 +148,16 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
 
                 reg.locations.append(loc)
 
-                world.set_rule(world.get_location(k), get_location_rule(k))
+                locations_to_setup[k] = get_location_rule(k)
                 continue
 
         location_key = k
         locs = get_location_names_with_ids([location_key])
         world.get_region(v[LOCATION_ROOM_KEY]).add_locations(locs, BluePrinceLocation)
-        locations_to_setup.append(location_key)
+        locations_to_setup[location_key] = get_location_rule(location_key)
 
-    for location_key in locations_to_setup:
-        world.set_rule(world.get_location(location_key), get_location_rule(location_key))
+    for location_key, rule in locations_to_setup.items():
+        world.set_rule(world.get_location(location_key), rule)
     
 def get_location_rule(location_key: str) -> Rule:
     location_data = locations[location_key]
@@ -237,7 +236,7 @@ def create_events(world: BluePrinceWorld) -> None:
             "Ascend The Throne",
             (CanReachItemLocation("CROWN") &
                 CanReachItemLocation("ROYAL SCEPTER") &
-                CanReachItemLocation("CURSED EFFIGY")).resolve(world),
+                CanReachItemLocation("CURSED EFFIGY")),
             location_type=BluePrinceLocation,
             item_type=items.BluePrinceItem,
         )
@@ -247,14 +246,14 @@ def create_events(world: BluePrinceWorld) -> None:
             "Ascend The Throne",
             (CanReachItemLocation("CROWN") &
                 CanReachItemLocation("ROYAL SCEPTER") &
-                CanReachItemLocation("CURSED EFFIGY")).resolve(world),
+                CanReachItemLocation("CURSED EFFIGY")),
             location_type=BluePrinceLocation,
             item_type=items.BluePrinceItem,
         )
         throne_room.add_event(
             "Unseal Blue Doors",
             "Blue Door Access",
-            HasFromList(*[x for x in blue_rooms if x not in core_rooms], count = 8).resolve(world),
+            HasFromList(*[x for x in blue_rooms if x not in core_rooms], count = 8),
             location_type=BluePrinceLocation,
             item_type=items.BluePrinceItem,
         )
@@ -288,8 +287,8 @@ def create_events(world: BluePrinceWorld) -> None:
         "Satellite Raised",
         And(
             *[CanReachItemLocation(x) for x in ["MICROCHIP 1", "MICROCHIP 2", "MICROCHIP 3"]],
-            CanReachItemLocation("Scorch Sundial")
-        ).resolve(world),
+            CanReachLocation("Scorch Sundial")
+        ),
         location_type=BluePrinceLocation,
         item_type=items.BluePrinceItem,
     )
