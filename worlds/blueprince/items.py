@@ -401,7 +401,7 @@ def create_all_items(world: BluePrinceWorld) -> None:
 
     exclude = [item for item in world.multiworld.precollected_items[world.player]]
 
-    standard_item_list = [world.create_item(k) for k in other_items if k not in ["LUNCH BOX", "CURSED EFFIGY", "CROWN", "ROYAL SCEPTER"] or world.options.goal_type.value > 1]
+    standard_item_list = [world.create_item(k) for k in other_items if (k not in ["LUNCH BOX", "CURSED EFFIGY"] or world.options.goal_type.value > 1) and (k not in ["CROWN", "ROYAL SCEPTER"] or world.options.goal_type.value > 2)]
     if world.options.standard_item_sanity:
         itempool += standard_item_list
     else:
@@ -419,7 +419,7 @@ def create_all_items(world: BluePrinceWorld) -> None:
     else:
         to_precollect += upgrade_disk_item_list
 
-    key_item_list = [world.create_item(k) for k in keys if (k not in sanctum_keys and k not in ["KEY of Aries"]) or world.options.goal_type.value > 1]
+    key_item_list = [world.create_item(k) for k in keys if (k not in sanctum_keys or world.options.goal_type.value > 1) and (k not in ["KEY of Aries"] or world.options.goal_type.value > 2)]
     if world.options.key_sanity:
         itempool += key_item_list
     else:

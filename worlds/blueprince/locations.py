@@ -107,7 +107,11 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         if world.options.goal_type.value < 4 and k in ["Ascend The Throne", "Throne of the Blue Prince Mora Jai Box"]:
             continue
 
-        if world.options.goal_type.value < 3 and (k in sanctum_keys or k in aries_court_mora_jai_boxes or k in ["KEY of Aries First Pickup", "ROYAL SCEPTER First Pickup"] or k in [f"Solved {s}" for s in [
+        if world.options.goal_type.value < 3 and (k in aries_court_mora_jai_boxes or k in ["KEY of Aries First Pickup", "ROYAL SCEPTER First Pickup"]):
+            continue
+
+        if world.options.goal_type.value < 2 and (k in sanctum_keys or k in ["LUNCH BOX First Pickup", "CURSED EFFIGY First Pickup", "Cursed Coffers", "Gift Shop - Mt. Holly Tee", "Gift Shop - Lunch Box", "Gift Shop - Swim Trunks", "Gift Shop - Swim Bird Plushie", "Gift Shop - Blue Tents", "Gift Shop - Cursed Coffers", "CROWN First Pickup"]
+            or k in [f"Solved {s}" for s in [
             "Orinda Aries Sanctum",
             "Fenn Aries Sanctum",
             "Arch Aries Sanctum",
@@ -126,9 +130,6 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
             "Verra Sanctum",
             "Nuance Sanctum",
         ]]):
-            continue
-
-        if world.options.goal_type.value < 2 and k in ["LUNCH BOX First Pickup", "CURSED EFFIGY First Pickup", "Cursed Coffers", "Gift Shop - Mt. Holly Tee", "Gift Shop - Lunch Box", "Gift Shop - Swim Trunks", "Gift Shop - Swim Bird Plushie", "Gift Shop - Blue Tents", "Gift Shop - Cursed Coffers", "CROWN First Pickup"]:
             continue # Skip locations that are past or at the goal
 
         if world.options.trophy_sanity == False and k in trophies:
