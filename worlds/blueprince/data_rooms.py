@@ -1951,3 +1951,14 @@ ITEMS_BY_GROUPS |= {
     "Black Rooms": [room for room in black_rooms],
     "Outer Rooms": [room for room in rooms if rooms[room][OUTER_ROOM_KEY]],
 }
+
+LOCATIONS_BY_GROUPS |= {
+    "Room Entrances": {f"{k} First Entering" for k in rooms},
+    "Trunks": {
+        # Create 100 locked trunk check locations for each room that has the ability to have locked trunks
+        f"{k} Locked Trunk {idx}"
+        for k, v in rooms.items()
+        for idx in range(1, 101)
+        if v[ROOM_CHEST_SPOT_COUNT_KEY] > 0
+    }
+}
