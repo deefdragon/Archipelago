@@ -67,9 +67,8 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         locs = get_location_names_with_ids([location_key])
         armory.add_locations(locs, BluePrinceLocation)
     
-    LOCATIONS_BY_GROUPS["Trunks"] = set()
     for room_key, v in rooms.items():
-        if world.options.goal_type.value < 2 and room_key in ["Room 46", "Gift Shop"]:
+        if world.options.goal_type.value < 2 and room_key in ["Room 46", "Gift Shop", "Treasure Trove"]:
             continue # Skip Rooms that are past or at the goal
 
         if world.options.goal_type.value < 1 and room_key in ["Antechamber"]:
@@ -91,7 +90,6 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         trunks = [f"{room_key} Locked Trunk {idx}" for idx in range(1, trunk_count + 1) if v[ROOM_CHEST_SPOT_COUNT_KEY] > 0]
         locs = get_location_names_with_ids(trunks)
         room.add_locations(locs, BluePrinceLocation)
-        LOCATIONS_BY_GROUPS["Trunks"].update(trunks)
 
         # These trunks require extra logic
         if room_key == "Entrance Hall":
@@ -110,7 +108,9 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         if world.options.goal_type.value < 3 and (k in aries_court_mora_jai_boxes or k in ["KEY of Aries First Pickup", "ROYAL SCEPTER First Pickup"]):
             continue
 
-        if world.options.goal_type.value < 2 and (k in sanctum_keys or k in ["LUNCH BOX First Pickup", "CURSED EFFIGY First Pickup", "Cursed Coffers", "Gift Shop - Mt. Holly Tee", "Gift Shop - Lunch Box", "Gift Shop - Swim Trunks", "Gift Shop - Swim Bird Plushie", "Gift Shop - Blue Tents", "Gift Shop - Cursed Coffers", "CROWN First Pickup"]
+        if world.options.goal_type.value < 2 and (k in sanctum_keys or 
+            k in ["LUNCH BOX First Pickup", "CURSED EFFIGY First Pickup", "Cursed Coffers", "CROWN First Pickup", "Underpass Mora Jai Box", "Treasure Trove Floorplan",
+                  "Gift Shop - Mt. Holly Tee", "Gift Shop - Lunch Box", "Gift Shop - Swim Trunks", "Gift Shop - Swim Bird Plushie", "Gift Shop - Blue Tents", "Gift Shop - Cursed Coffers"]
             or k in [f"Solved {s}" for s in [
             "Orinda Aries Sanctum",
             "Fenn Aries Sanctum",
@@ -320,6 +320,9 @@ def create_events(world: BluePrinceWorld) -> None:
     for k, v in rooms.items():
         if v[ROOM_CHESS_PIECE_KEY] == CHESS_PIECE_NONE:
             continue
+        if world.options.goal_type.value < 2 and k in ["Treasure Trove"]:
+            continue # Skip Rooms that are past or at the goal
+
         world.get_region(k).add_event(
             f"Has {k} Chess Piece",
             f"Chess Piece {v[ROOM_CHESS_PIECE_KEY]}",

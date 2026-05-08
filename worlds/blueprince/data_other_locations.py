@@ -1533,6 +1533,13 @@ misc_locations = {
 
 # Reservoir/Treasure Trove chests? (46 in Trove, 23 in Reservoir)
 
+# Gallery painting puzzles
+
+# Boiler solve
+# Blackbridge Opened (Labratory Puzzle)
+# Well Drained
+# Pool Drained
+
 locations = trophies | safes_and_small_gates | mora_jai_boxes | floorplans | shop_items | upgrade_disks | keys | misc_locations | item_pickups | workshop_contraptions | doors_walls_and_gates
 
 LOCATIONS_BY_GROUPS |= {
