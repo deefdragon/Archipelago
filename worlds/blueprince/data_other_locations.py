@@ -611,7 +611,7 @@ standard_item_pickup = {
                 "Courtyard",
                 "Drafting Studio",
                 "Guest Bedroom",
-                "Her Ladyship's Chambers",
+                "Her Ladyship's Chamber",
                 "Laboratory",
                 "Library",
                 "Mail Room",
@@ -813,7 +813,7 @@ standard_item_pickup = {
         LOCATION_ITEM_KEY: "TELESCOPE",
         LOCATION_RULE_SIMPLE_COMMON: Or(
             *[CanReachRegion(region) for region in [
-                "Her Ladyship's Chambers",
+                "Her Ladyship's Chamber",
                 "Walk-In Closet",
                 "Planetarium",
             ]]
@@ -951,7 +951,7 @@ special_key_pickup = {
             *[CanReachRegion(region) for region in [
                 "Closet",
                 "Music Room",
-                "Her Ladyship's Chambers",
+                "Her Ladyship's Chamber",
                 "Locksmith",
                 "Billiard Room", # Dartboard puzzle
                 "Mail Room", # Packages
@@ -1032,8 +1032,8 @@ unique_item_pickup = {
         ),
     },
     "DIARY KEY First Pickup": {
-        LOCATION_ID_KEY: all_areas["Her Ladyship's Chambers"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
-        LOCATION_ROOM_KEY: "Her Ladyship's Chambers",
+        LOCATION_ID_KEY: all_areas["Her Ladyship's Chamber"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
+        LOCATION_ROOM_KEY: "Her Ladyship's Chamber",
         LOCATION_ITEM_KEY: "DIARY KEY",
     },
     "KEY of Aries First Pickup": {
@@ -1159,9 +1159,9 @@ upgrade_disks = {
         LOCATION_ID_KEY: all_areas["Morning Room"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Morning Room",
     },
-    "Upgrade Disk - Her Ladyship's Chambers": {
-        LOCATION_ID_KEY: all_areas["Her Ladyship's Chambers"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
-        LOCATION_ROOM_KEY: "Her Ladyship's Chambers",
+    "Upgrade Disk - Her Ladyship's Chamber": {
+        LOCATION_ID_KEY: all_areas["Her Ladyship's Chamber"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
+        LOCATION_ROOM_KEY: "Her Ladyship's Chamber",
     },
     "Upgrade Disk - Commissary": {
         LOCATION_ID_KEY: all_areas["Commissary"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -1264,7 +1264,7 @@ vault_keys = {
         LOCATION_RULE_SIMPLE_COMMON: Or(
             *[CanReachRegion(region) for region in [
                 "Conference Room",
-                "Her Ladyship's Chambers",
+                "Her Ladyship's Chamber",
                 "Walk-In Closet",
                 "Hovel",
             ]

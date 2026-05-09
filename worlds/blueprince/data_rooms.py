@@ -1148,7 +1148,7 @@ bedrooms = {
         OUTER_ROOM_KEY: False,
         ROOM_CHESS_PIECE_KEY: CHESS_PIECE_PAWN,
     },
-    "Her Ladyship's Chambers": {
+    "Her Ladyship's Chamber": {
         ROOM_ITEM_ID_KEY: 309,
         ROOM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
         ROOM_ITEM_SPOT_COUNT_KEY: 0,
