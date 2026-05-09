@@ -136,6 +136,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     foundation = world.get_region("The Foundation")
     entrance_hall = world.get_region("Entrance Hall")
     antechamber = world.get_region("Antechamber")
+    pool = world.get_region("The Pool")
 
     # Go through the rooms and connect them to the outer room/campsite (starting area)
     for k, v in rooms.items():
@@ -240,13 +241,26 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                 world.get_region(prev).connect(
                     room,
                     f"{prev} {k}",
-                    Has("Progressive Classroom", count=cnum),
+                    Has("Progressive Classroom", count=cnum) & CanReachRegion("Schoolhouse"),
                 )
             elif k == "Classroom 1":
                 entrance_hall.connect(
                     room,
                     "Entrance Hall Classroom 1",
                     Has("Progressive Classroom"),
+                )
+
+            elif k in ["Boiler Room", "Pump Room", "Sauna"]:
+                pool.connect(
+                    room,
+                    f"Pool To {k}",
+                )
+            
+            elif k == "Morning Room":
+                entrance_hall.connect(
+                    room,
+                    "Entrance Hall Morning Room",
+                    CanReachPickPosition("Morning Room") & CanReachRegion("Kitchen"), # Requires Kitchen or Breakfast Nook, but we don't handle room upgrades yet.
                 )
 
             # TODO: Add Her Ladyship's Chamber, it has weird requirements
