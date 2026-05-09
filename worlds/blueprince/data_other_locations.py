@@ -1539,6 +1539,14 @@ misc_locations = {
 # Blackbridge Opened (Labratory Puzzle)
 # Well Drained
 # Pool Drained
+# Room Upgrades
+
+# Possible locations that are currently Events:
+# Raise Satellite
+# Sanctum Solves
+# Ascend the Throne
+# Unseal Blue Doors
+# Levers
 
 locations = trophies | safes_and_small_gates | mora_jai_boxes | floorplans | shop_items | upgrade_disks | keys | misc_locations | item_pickups | workshop_contraptions | doors_walls_and_gates
 
