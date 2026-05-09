@@ -13,7 +13,7 @@ trophies = {
     "Full House Trophy": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Entrance Hall",
-        LOCATION_RULE_SIMPLE_COMMON: HasFromList(*[x for x in room_layout_lists[INNER_ROOM_KEY] if x not in core_rooms], count=43)
+        LOCATION_RULE_SIMPLE_COMMON: HasFromList(*(directory_rooms + ["SECRET GARDEN KEY", "KEY 8"]), count=43)
     },
     "Trophy of Invention": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -23,7 +23,7 @@ trophies = {
     "Trophy of Drafting": {
         LOCATION_ID_KEY: all_areas["Mail Room"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Mail Room",
-        LOCATION_RULE_SIMPLE_COMMON: HasFromList(*[x for x in rooms if rooms[x][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_D and not rooms[x][OUTER_ROOM_KEY] and x not in core_rooms and x not in ["Mechanarium"]], count=20), # Mechanarium is a dead end for pathing, but doesn't count for the trophy
+        LOCATION_RULE_SIMPLE_COMMON: CanReachRegionsFromList(*[x for x in rooms if rooms[x][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_D and not rooms[x][OUTER_ROOM_KEY] and x not in core_rooms and x not in ["Mechanarium"]], count=20), # Mechanarium is a dead end for pathing, but doesn't count for the trophy
     },
     "Trophy of Wealth": {
         LOCATION_ID_KEY: all_areas["Showroom"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -48,7 +48,7 @@ trophies = {
     "Explorer's Trophy": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
         LOCATION_ROOM_KEY: "Entrance Hall",
-        LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Secret Garden") & CanReachRegion("Room 8") & HasAllCounts({k: 1 for k in directory_rooms}),
+        LOCATION_RULE_SIMPLE_COMMON:  CanReachRegionsFromList(*[x for x in room_layout_lists[INNER_ROOM_KEY] if x not in core_rooms], count=(len(room_layout_lists[INNER_ROOM_KEY]) - len(core_rooms))),
     },
     "Trophy of Sigils": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,

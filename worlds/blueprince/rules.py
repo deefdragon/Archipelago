@@ -100,6 +100,9 @@ class CanReachItemLocation(Rule["BluePrinceWorld"], game="Blue Prince"):
 
         if loc_name in locations:
             return (Has(self.location) & CanReachLocation(loc_name, parent_region_name=self.parent_region_name)).resolve(world)
+        
+        if self.location in workshop_items:
+            return (Has(self.location) & CanReachLocation(f"{self.location} First Craft", parent_region_name="Workshop")).resolve(world)
 
         if self.location in armory_items:
             return (Has(self.location) & CanReachRegion("The Armory")).resolve(world)
@@ -363,8 +366,6 @@ class CanReachItemLocationsFromList(Rule["BluePrinceWorld"], game="Blue Prince")
         if len(self.targets) == 1:
             return CanReachItemLocation(self.targets[0]).resolve(world)
         
-
-
         return self.Resolved(self.targets, self.count, player=world.player)
     
     class Resolved(Rule.Resolved):
@@ -389,6 +390,44 @@ class CanReachItemLocationsFromList(Rule["BluePrinceWorld"], game="Blue Prince")
                             if (state.has(target, self.player) and state.can_reach_location(location, self.player)):
                                 reachable_count += 1
                                 break
+
+                if reachable_count >= self.count:
+                    return True
+
+            return False
+        
+@dataclasses.dataclass()
+class CanReachRegionsFromList(Rule["BluePrinceWorld"], game="Blue Prince"):
+    """
+    Check if the player can reach at least count regions from the list
+    """
+    targets: tuple[str, ...]
+    count : int = 1
+
+    def __init__(self, *targets: str, count: int = 1):
+        self.targets = tuple(sorted(set(targets)))
+        self.count = count
+
+    @override
+    def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
+        if len(self.targets) == 0:
+            return False_().resolve(world)
+        if len(self.targets) == 1:
+            return CanReachRegion(self.targets[0]).resolve(world)
+        if self.count == 1:
+            return Or(*[CanReachRegion(target) for target in self.targets]).resolve(world)
+        return self.Resolved(self.targets, self.count, player=world.player)
+        
+    class Resolved(Rule.Resolved):
+        targets: tuple[str, ...]
+        count : int = 1
+
+        @override
+        def _evaluate(self, state: CollectionState) -> bool:
+            reachable_count = 0
+            for target in self.targets:
+                if state.can_reach_region(target, self.player):
+                    reachable_count += 1
 
                 if reachable_count >= self.count:
                     return True

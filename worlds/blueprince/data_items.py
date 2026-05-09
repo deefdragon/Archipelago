@@ -426,7 +426,7 @@ workshop_items = {
     "Detector Shovel": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
         ITEM_ID_KEY: 3002,
-        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.useful,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
     },
     "Dowsing Rod": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
@@ -436,7 +436,7 @@ workshop_items = {
     "Electromagnet": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
         ITEM_ID_KEY: 3004,
-        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.useful,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
     },
     "Jack Hammer": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
@@ -446,12 +446,12 @@ workshop_items = {
     "Lucky Purse": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
         ITEM_ID_KEY: 3006,
-        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.useful,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
     },
     "Pick Sound Amplifier": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
         ITEM_ID_KEY: 3007,
-        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.useful,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
     },
     "Power Hammer": {
         ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
