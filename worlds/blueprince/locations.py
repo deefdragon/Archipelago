@@ -132,7 +132,7 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         ]]):
             continue # Skip locations that are past or at the goal
 
-        if world.options.trophy_sanity == False and k in trophies:
+        if world.options.trophy_sanity.value == False and k in trophies:
             continue # Skip placing trophies when trophy sanity is off
 
         if k in shop_items and world.options.special_shop_sanity == False and NONSANITY_LOCATION_KEY in v:

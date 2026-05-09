@@ -205,10 +205,10 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                     room,
                     "Entrance Hall Trophy Room",
                     ((CanReachRegion("Room 46") | Or(
-                                CanReachItemLocation("Full House Trophy"),
-                                CanReachItemLocation("Trophy of Invention"),
-                                CanReachItemLocation("Trophy of Drafting"), 
-                                CanReachItemLocation("Trophy of Wealth"),
+                                CanReachLocation("Full House Trophy"),
+                                CanReachLocation("Trophy of Invention"),
+                                CanReachLocation("Trophy of Drafting"), 
+                                CanReachLocation("Trophy of Wealth"),
                                 options=[OptionFilter(TrophySanity, True)]
                             )
                         ) & CanReachPickPosition("Trophy Room")),
@@ -253,7 +253,8 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
             elif k in ["Boiler Room", "Pump Room", "Sauna"]:
                 pool.connect(
                     room,
-                    f"Pool To {k}",
+                    f"The Pool To {k}",
+                    Has(k)
                 )
             
             elif k == "Morning Room":
