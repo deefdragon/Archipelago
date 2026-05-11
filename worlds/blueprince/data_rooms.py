@@ -1701,7 +1701,7 @@ red_rooms = {
         OUTER_ROOM_KEY: False,
         ROOM_CHESS_PIECE_KEY: CHESS_PIECE_BISHOP,
     },
-    "Maids Chamber": {
+    "Maid's Chamber": {
         ROOM_ITEM_ID_KEY: 705,
         ROOM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
         ROOM_ITEM_SPOT_COUNT_KEY: 0,

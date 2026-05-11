@@ -649,7 +649,7 @@ standard_item_pickup = {
                 "Closet",
                 "Courtyard",
                 "Greenhouse",
-                "Maids Chamber",
+                "Maid's Chamber",
                 "Mail Room",
                 "Patio",
                 "Veranda",
