@@ -109,8 +109,18 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
             continue
 
         if world.options.goal_type.value < 2 and (k in sanctum_keys or 
-            k in ["LUNCH BOX First Pickup", "CURSED EFFIGY First Pickup", "Cursed Coffers", "CROWN First Pickup", "Underpass Mora Jai Box", "Treasure Trove Floorplan",
-                  "Gift Shop - Mt. Holly Tee", "Gift Shop - Lunch Box", "Gift Shop - Swim Trunks", "Gift Shop - Swim Bird Plushie", "Gift Shop - Blue Tents", "Gift Shop - Cursed Coffers"]
+            k in ["LUNCH BOX First Pickup", 
+                  "CURSED EFFIGY First Pickup", 
+                  "Cursed Coffers", 
+                  "CROWN First Pickup", 
+                  "Underpass Mora Jai Box", 
+                  "Treasure Trove Floorplan",
+                  "Gift Shop - Mt. Holly Tee", 
+                  "Gift Shop - Lunch Box", 
+                  "Gift Shop - Swim Trunks", 
+                  "Gift Shop - Swim Bird Plushie", 
+                  "Gift Shop - Blue Tents", 
+                  "Gift Shop - Cursed Coffers"]
             or k in [f"Solved {s}" for s in [
             "Orinda Aries Sanctum",
             "Fenn Aries Sanctum",
