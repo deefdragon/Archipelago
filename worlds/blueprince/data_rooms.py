@@ -1811,7 +1811,7 @@ black_rooms = {
     },
     "Throne Room": {
         ROOM_ITEM_ID_KEY: 802,
-        ROOM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression | ItemClassification.useful,
+        ROOM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression_deprioritized | ItemClassification.useful,
         ROOM_ITEM_SPOT_COUNT_KEY: 0,
         ROOM_CHEST_SPOT_COUNT_KEY: 0,
         ROOM_LAYOUT_TYPE_KEY: ROOM_LAYOUT_TYPE_T,

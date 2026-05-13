@@ -163,6 +163,10 @@ mora_jai_boxes = {
     "Tomb Mora Jai Box": {
         LOCATION_ID_KEY: all_areas["Tomb"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Tomb",
+        LOCATION_RULE_SIMPLE_COMMON: Or(
+            CanReachItemLocation("Burning Glass"),
+            CanReachItemLocation("TORCH")
+        ),
     },
     "Trading Post Mora Jai Box": {
         LOCATION_ID_KEY: all_areas["Trading Post"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -1198,6 +1202,10 @@ upgrade_disks = {
     "Upgrade Disk - Tomb": {
         LOCATION_ID_KEY: all_areas["Tomb"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
         LOCATION_ROOM_KEY: "Tomb",
+        LOCATION_RULE_SIMPLE_COMMON: Or(
+            CanReachItemLocation("Burning Glass"),
+            CanReachItemLocation("TORCH")
+        ),
     },
     "Upgrade Disk - The Foundation": {
         LOCATION_ID_KEY: all_areas["The Foundation"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
