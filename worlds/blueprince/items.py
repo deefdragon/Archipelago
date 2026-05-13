@@ -188,7 +188,7 @@ def get_random_filler_item_name(world: BluePrinceWorld) -> str:
     if world.random.randint(0, 99) < world.options.trap_percentage:
 
         choice = world.random.choices(
-            list(world.options.trap_type_distribution.valid_keys),
+            list(world.options.trap_type_distribution.value.keys()),
             list(world.options.trap_type_distribution.value.values()),
         )[0]
 
@@ -236,7 +236,7 @@ def get_random_filler_item_name(world: BluePrinceWorld) -> str:
                     return "Trap Lose Stars 1"
     else:
         choice = world.random.choices(
-            list(world.options.filler_item_distribution.valid_keys),
+            list(world.options.filler_item_distribution.value.keys()),
             list(world.options.filler_item_distribution.value.values()),
         )[0]
 
