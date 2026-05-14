@@ -84,6 +84,7 @@ class BluePrinceWorld(World):
             "trap_percentage",
             "death_link_type",
             "death_link_grace",
+            "death_link_protection",
             "death_link_monk_exception",
             "goal_type",
             "goal_sanctum_solves",

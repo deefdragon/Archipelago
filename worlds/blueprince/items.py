@@ -451,19 +451,20 @@ def create_all_items(world: BluePrinceWorld) -> None:
                                                     and (set(rooms[room.name][ROOM_PICK_POSITIONS_KEY]) & ENTRANCE_HALL_DRAFTABLE) 
                                                     and room.name not in ["Sauna"] 
                                                     and not (room.name in ["Treasure Trove", "Gift Shop"] and world.options.goal_type.value <= 1)
-                                                    and not (world.options.trophy_sanity == False and world.options.goal_type.value < 2 and room.name == "Trophy Room")],
+                                                    and not (world.options.trophy_sanity == False and world.options.goal_type.value <= 1 and room.name == "Trophy Room")],
             k=world.options.starting_room_amount.value,
         )
         world.starting_rooms += [r for r in room_item_list if r.name == "Closet"]
         itempool += [room for room in room_item_list if room not in world.starting_rooms 
-                     and not (room.name in ["Treasure Trove", "Gift Shop"] and world.options.goal_type.value <= 1)]
+                     and not (room.name in ["Treasure Trove", "Gift Shop"] and world.options.goal_type.value <= 1)
+                     and not (world.options.trophy_sanity == False and world.options.goal_type.value <= 1 and room.name == "Trophy Room")]
         to_precollect += world.starting_rooms
     else:
         # Precollects all room items, except for those that should be at their in-game locations, which are handled in locations.py
         to_precollect += [room for room in room_item_list if (NONSANITY_LOCATION_KEY not in rooms[room.name] 
                                                               or rooms[room.name][NONSANITY_LOCATION_KEY] == STARTING_INVENTORY) 
                                                               and not (room.name in ["Treasure Trove", "Gift Shop"] and world.options.goal_type.value <= 1)
-                                                              and not (world.options.trophy_sanity == False and world.options.goal_type.value < 2 and room.name == "Trophy Room")]
+                                                              and not (world.options.trophy_sanity == False and world.options.goal_type.value <=1  and room.name == "Trophy Room")]
 
     if world.options.room_draft_sanity:
         n = len([room for room in world.starting_rooms if room in data_rooms.progressive_classroom])

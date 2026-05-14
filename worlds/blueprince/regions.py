@@ -264,6 +264,13 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                     CanReachPickPosition("Morning Room") & CanReachRegion("Kitchen"), # Requires Kitchen or Breakfast Nook, but we don't handle room upgrades yet.
                 )
 
+            elif k == "Throne Room":
+                entrance_hall.connect(
+                    room,
+                    "Entrance Hall Throne Room",
+                    CanReachPickPosition("Throne Room") & CanReachLocation("Throne Room Floorplan"), # This is a lie to prevent the Throne Room from being placed early in logic, which was forcing the other routes much later in logic.
+                )
+
             # TODO: Add Her Ladyship's Chamber, it has weird requirements
             elif k == "Entrance Hall":
                 continue
