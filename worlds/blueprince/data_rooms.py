@@ -172,7 +172,7 @@ secret_blue = {
         ],
         OUTER_ROOM_KEY: False,
         ROOM_CHESS_PIECE_KEY: CHESS_PIECE_NONE,
-        NONSANITY_LOCATION_KEY: "The Kennel Floorplan"
+        NONSANITY_LOCATION_KEY: "Kennel Floorplan"
     },
     "Clock Tower": {
         ROOM_ITEM_ID_KEY: 203,
@@ -1627,7 +1627,7 @@ shops = {
     },
 }
 red_rooms = {
-    "Lost And Found": {
+    "Lost & Found": {
         ROOM_ITEM_ID_KEY: 701,
         ROOM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
         ROOM_ITEM_SPOT_COUNT_KEY: 0,

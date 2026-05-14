@@ -180,9 +180,9 @@ mora_jai_boxes = {
         LOCATION_ID_KEY: all_areas["Solarium"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Solarium",
     },
-    "Lost And Found Mora Jai Box": {
-        LOCATION_ID_KEY: all_areas["Lost And Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
-        LOCATION_ROOM_KEY: "Lost And Found",
+    "Lost & Found Mora Jai Box": {
+        LOCATION_ID_KEY: all_areas["Lost & Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
+        LOCATION_ROOM_KEY: "Lost & Found",
     },
     "Throne of the Blue Prince Mora Jai Box": {
         LOCATION_ID_KEY: all_areas["Throne Room"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -230,7 +230,7 @@ drafting_studio_additions = {
         LOCATION_ROOM_KEY: "Drafting Studio",
         NONSANITY_LOCATION_KEY: "Dovecote"
     },
-    "The Kennel Floorplan": {
+    "Kennel Floorplan": {
         LOCATION_ID_KEY: all_areas["Drafting Studio"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,
         LOCATION_ROOM_KEY: "Drafting Studio",
         NONSANITY_LOCATION_KEY: "The Kennel"
@@ -304,7 +304,7 @@ found_floorplans = {
     "Lost And Found Floorplan": {
         LOCATION_ID_KEY: all_areas["Basement"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Basement",
-        NONSANITY_LOCATION_KEY: "Lost And Found",
+        NONSANITY_LOCATION_KEY: "Lost & Found",
         LOCATION_RULE_SIMPLE_COMMON: CanReachItemLocation("SHOVEL"),
     },
     "Closed Exhibit Floorplan": {
@@ -538,7 +538,7 @@ standard_item_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "GEAR WRENCH",
         LOCATION_RULE_SIMPLE_COMMON: Or(
-            CanReachRegion("Toolshed"), CanReachRegion("Lost And Found"),
+            CanReachRegion("Toolshed"), CanReachRegion("Lost & Found"),
         ) | AdvancedExperimentRule() | SpiralOfStarsRule(),
     },
     "HALL PASS First Pickup": {
@@ -557,7 +557,7 @@ standard_item_pickup = {
                 "Classroom 8",
                 "Classroom Exam",
                 "Dormitory",
-                "Lost And Found",
+                "Lost & Found",
             ]]
         ) | AdvancedExperimentRule() | SpiralOfStarsRule(),
     },
@@ -595,7 +595,7 @@ standard_item_pickup = {
                 "Nursery",
                 "Morning Room",
                 "Throne Room",
-                "Lost And Found",
+                "Lost & Found",
             ]]
         ) | Or(
             CanReachRegion("Gallery"), CanReachRegion("Den"), CanReachRegion("Ballroom"),
@@ -669,8 +669,8 @@ standard_item_pickup = {
         ) | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Veranda"),
     },
     "REPELLENT First Pickup": {
-        LOCATION_ID_KEY: all_areas["Lost And Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,
-        LOCATION_ROOM_KEY: "Lost And Found",
+        LOCATION_ID_KEY: all_areas["Lost & Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,
+        LOCATION_ROOM_KEY: "Lost & Found",
         LOCATION_ITEM_KEY: "REPELLENT",
     },
     "RUNNING SHOES First Pickup": {
@@ -805,7 +805,7 @@ standard_item_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "STOPWATCH",
         LOCATION_RULE_SIMPLE_COMMON: Or(
-            CanReachRegion("Clock Tower"), CanReachRegion("Lost And Found")
+            CanReachRegion("Clock Tower"), CanReachRegion("Lost & Found")
         ) | And(
             CanReachItemLocation("Jack Hammer"), DigSpotRule(),
             options=rare_logic_filter
@@ -852,7 +852,7 @@ standard_item_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "WATERING CAN",
         LOCATION_RULE_SIMPLE_COMMON: Or(
-            CanReachRegion("Greenhouse"), CanReachRegion("Toolshed"), CanReachRegion("Hovel"), CanReachRegion("Lost And Found")
+            CanReachRegion("Greenhouse"), CanReachRegion("Toolshed"), CanReachRegion("Hovel"), CanReachRegion("Lost & Found")
         ) | AdvancedExperimentRule() | SpiralOfStarsRule() |
         UpgradedRoomRule("Spare Room", "Spare Greenroom") | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Veranda") | UpgradedRoomRule("Spare Room", "Spare Terrace"),
     },
@@ -897,7 +897,7 @@ special_key_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "KEY 8",
         LOCATION_RULE_SIMPLE_COMMON: Or(
-            CanReachRegion("Gallery"), CanReachRegion("Lost And Found", options=complex_logic_filter), # Lost & Found: Day 365+
+            CanReachRegion("Gallery"), CanReachRegion("Lost & Found", options=complex_logic_filter), # Lost & Found: Day 365+
         )
     },
     "KEYCARD First Pickup": {
@@ -932,7 +932,7 @@ special_key_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "PRISM KEY_0",
         LOCATION_RULE_SIMPLE_COMMON: Or(
-            CanReachRegion("Music Room"), CanReachRegion("Lost And Found"), CanReachRegion("Locksmith")
+            CanReachRegion("Music Room"), CanReachRegion("Lost & Found"), CanReachRegion("Locksmith")
         ) | And(
             CanReachRegion("Freezer"),
             Or(CanReachItemLocation("Burning Glass"), CanReachItemLocation("TORCH")),
@@ -944,7 +944,7 @@ special_key_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "SECRET GARDEN KEY",
         LOCATION_RULE_SIMPLE_COMMON: Or(
-            CanReachRegion("Attic"), CanReachRegion("Music Room"), CanReachRegion("Lost And Found"), CanReachRegion("Locksmith"), CanReachRegion("Billiard Room")
+            CanReachRegion("Attic"), CanReachRegion("Music Room"), CanReachRegion("Lost & Found"), CanReachRegion("Locksmith"), CanReachRegion("Billiard Room")
         ) | DigSpotRule() | CarTrunkRule() | TrunkRule(),
     },
     "SILVER KEY First Pickup": {
@@ -1216,8 +1216,8 @@ upgrade_disks = {
         LOCATION_ROOM_KEY: "Abandoned Mine",
     },
     "Upgrade Disk - Lost And Found": {
-        LOCATION_ID_KEY: all_areas["Lost And Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
-        LOCATION_ROOM_KEY: "Lost And Found",
+        LOCATION_ID_KEY: all_areas["Lost & Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
+        LOCATION_ROOM_KEY: "Lost & Found",
     },
     "Upgrade Disk - Mechanarium": {
         LOCATION_ID_KEY: all_areas["Mechanarium"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -1282,7 +1282,7 @@ vault_keys = {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 7, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Entrance Hall",
         LOCATION_ITEM_KEY: "VAULT KEY 370",
-        LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Lost And Found") | DigSpotRule(),
+        LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Lost & Found") | DigSpotRule(),
     }
 }
 
