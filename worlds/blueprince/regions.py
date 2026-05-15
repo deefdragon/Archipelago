@@ -432,11 +432,13 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         excavation_tunnel,
         "Reservoir Fountain Side To Excavation Tunnel",
     )
-    the_well.connect(
-        reservoir_fountain_side,
-        "Well To Reservoir Fountain Side",
-        CanReachItemLocation("BASEMENT KEY", parent_region_name="Antechamber"),
-    )
+
+    if world.options.goal_type.value > 0:
+        the_well.connect(
+            reservoir_fountain_side,
+            "Well To Reservoir Fountain Side",
+            CanReachItemLocation("BASEMENT KEY", parent_region_name="Antechamber"),
+        )
 
     west_path.connect(
         grounds,
@@ -459,14 +461,15 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         "Garage To West Path",
         Or(CanReachRegion("Utility Closet"), CanReachRegion("Boiler Room")),
     )
-    foundation_elevator.connect(
-        basement,
-        "Foundation Elevator To Basement",
-        And(
-            CanReachRegion("The Foundation"),
-            CanReachItemLocation("BASEMENT KEY", parent_region_name="Antechamber"),
-        ),
-    )
+    if world.options.goal_type.value > 0:
+        foundation_elevator.connect(
+            basement,
+            "Foundation Elevator To Basement",
+            And(
+                CanReachRegion("The Foundation"),
+                CanReachItemLocation("BASEMENT KEY", parent_region_name="Antechamber"),
+            ),
+        )
     torch_chamber.connect(
         the_precipice,
         "Torch Chamber To Precipice",
@@ -495,11 +498,12 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         tunnel_area_post_normal_locked_door,
         "Tunnel Area Post Crates to Tunnel Area Post Normal Locked Door",
     )
-    tunnel_area_post_normal_locked_door.connect(
-        tunnel_area_post_basement_key_door,
-        "Tunnel Area Post Normal Locked Door to Tunnel Area Post Basement Key",
-        CanReachItemLocation("BASEMENT KEY", parent_region_name="Antechamber"),
-    )
+    if world.options.goal_type.value > 0:
+        tunnel_area_post_normal_locked_door.connect(
+            tunnel_area_post_basement_key_door,
+            "Tunnel Area Post Normal Locked Door to Tunnel Area Post Basement Key",
+            CanReachItemLocation("BASEMENT KEY", parent_region_name="Antechamber"),
+        )
     tunnel_area_post_basement_key_door.connect(
         tunnel_area_post_security_door,
         "Tunnel Area Post Basement Key to Tunnel Area Post Security Door",

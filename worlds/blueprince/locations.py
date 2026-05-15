@@ -142,7 +142,7 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         ]]):
             continue 
 
-        if world.options.goal_type.value < 1 and k in ["BASEMENT KEY First Pickup"]:
+        if world.options.goal_type.value < 1 and (k in ["BASEMENT KEY First Pickup", "Break Tunnel Wall"] or "Unlock Basement Door" in k):
             continue # Skip locations that are past or at the goal
 
         if world.options.trophy_sanity == False and (k in trophies or k in ["Gift Shop - Blue Tents"]):
