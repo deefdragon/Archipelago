@@ -1215,7 +1215,7 @@ upgrade_disks = {
         LOCATION_ID_KEY: all_areas["Abandoned Mine"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Abandoned Mine",
     },
-    "Upgrade Disk - Lost And Found": {
+    "Upgrade Disk - Lost & Found": {
         LOCATION_ID_KEY: all_areas["Lost & Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Lost & Found",
     },

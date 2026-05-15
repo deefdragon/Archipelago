@@ -403,7 +403,8 @@ def create_all_items(world: BluePrinceWorld) -> None:
 
     exclude = [item for item in world.multiworld.precollected_items[world.player]]
 
-    standard_item_list = [world.create_item(k) for k in other_items if (k not in ["LUNCH BOX", "CURSED EFFIGY"] or world.options.goal_type.value > 1) 
+    standard_item_list = [world.create_item(k) for k in other_items if (k not in ["BASEMENT KEY"] or world.options.goal_type.value > 0)
+                                                                    and (k not in ["LUNCH BOX", "CURSED EFFIGY"] or world.options.goal_type.value > 1) 
                                                                     and (k not in ["CROWN", "ROYAL SCEPTER"] or world.options.goal_type.value > 2)]
     if world.options.standard_item_sanity:
         itempool += standard_item_list
