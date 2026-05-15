@@ -145,7 +145,7 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
         if world.options.goal_type.value < 1 and k in ["BASEMENT KEY First Pickup"]:
             continue # Skip locations that are past or at the goal
 
-        if world.options.trophy_sanity == False and k in trophies:
+        if world.options.trophy_sanity == False and (k in trophies or k in ["Gift Shop - Blue Tents"]):
             continue # Skip placing trophies when trophy sanity is off
 
         if k in shop_items and world.options.special_shop_sanity == False and NONSANITY_LOCATION_KEY in v:
