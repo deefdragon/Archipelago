@@ -342,7 +342,7 @@ class DeathLinkMonkException(Toggle):
 
     default = True
 
-
+# TODO: Add Tunnel ending? (after ascend, but before blueprints)
 # Goal Options
 class GoalType(Choice):
     """
@@ -391,6 +391,17 @@ class StartingRoomAmount(Range):
     range_end = 10
     default = 3
 
+class DevTesting(Toggle):
+    """
+    Dev: Toggle to turn on locations and items that are not implemented yet
+    """
+
+    display_name = "Dev: Development Testing"
+
+    default = False
+
+    visibility = Visibility.none
+
 # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
@@ -424,6 +435,8 @@ class BluePrinceOptions(PerGameCommonOptions):
     # Goal Options
     goal_type: GoalType
     goal_sanctum_solves: GoalSanctumSolves
+
+    dev_testing: DevTesting
 
 
 # If we want to group our options by similar type, we can do so as well. This looks nice on the website.

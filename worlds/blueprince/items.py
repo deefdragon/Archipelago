@@ -473,8 +473,17 @@ def create_all_items(world: BluePrinceWorld) -> None:
     else:
         to_precollect += data_rooms.progressive_classroom
 
+    # remove anything that isn't implemented yet
+    for item in to_precollect.copy():
+        if not is_implemented(item.name, world):
+            to_precollect.remove(item)
+
+    for item in itempool.copy():
+        if not is_implemented(item.name, world):
+            itempool.remove(item)
+
     # remove any items that are in starting inventory
-    for item in to_precollect:
+    for item in to_precollect.copy():
         if item in exclude:
             exclude.remove(item)
         else:
@@ -503,3 +512,18 @@ def create_all_items(world: BluePrinceWorld) -> None:
 
     # Add Itempool to world itempool
     world.multiworld.itempool += itempool
+
+def is_implemented(item_name: str, world: BluePrinceWorld) -> bool:
+    if world.options.dev_testing:
+        return True
+    if item_name in all_items:
+        if IMPLEMENTATION_STATUS not in all_items[item_name]:
+            return True
+        return all_items[item_name][IMPLEMENTATION_STATUS] == IMPLEMENTED
+    
+    elif item_name in rooms:
+        if IMPLEMENTATION_STATUS not in rooms[item_name]:
+            return True
+        return rooms[item_name][IMPLEMENTATION_STATUS] == IMPLEMENTED
+    
+    return True

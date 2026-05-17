@@ -81,8 +81,12 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
 
         # Add fist room entrance
         location_key = f"{room_key} First Entering"
-        locs = get_location_names_with_ids([location_key])
-        room.add_locations(locs, BluePrinceLocation)
+        if not is_implemented(location_key, world):
+            continue
+
+        if room_key != "Entrance Hall":
+            locs = get_location_names_with_ids([location_key])
+            room.add_locations(locs, BluePrinceLocation)
         # Add Nth locked trunk open
 
         trunk_count = world.options.locked_trunks_common if ROOM_CHEST_SPOT_TYPE_KEY not in v or v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_COMMON else world.options.locked_trunks_rare if v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_RARE else world.options.locked_trunks_complex
@@ -147,6 +151,9 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
 
         if world.options.trophy_sanity == False and (k in trophies or k in ["Gift Shop - Blue Tents"]):
             continue # Skip placing trophies when trophy sanity is off
+
+        if not is_implemented(k, world):
+            continue
 
         if k in shop_items and world.options.special_shop_sanity == False and NONSANITY_LOCATION_KEY in v:
             # Place special shop items at their in-game locations when special shop sanity is off.
@@ -323,7 +330,10 @@ def create_events(world: BluePrinceWorld) -> None:
         "Satellite Raised",
         And(
             *[CanReachItemLocation(x) for x in ["MICROCHIP 1", "MICROCHIP 2", "MICROCHIP 3"]],
-            CanReachLocation("Scorch Sundial")
+            Or(
+                CanReachItemLocation("Burning Glass"),
+                CanReachItemLocation("TORCH")
+            )
         ),
         location_type=BluePrinceLocation,
         item_type=items.BluePrinceItem,
@@ -343,4 +353,20 @@ def create_events(world: BluePrinceWorld) -> None:
             item_type=items.BluePrinceItem,
         )
         
+
+def is_implemented(location_name: str, world: BluePrinceWorld) -> bool:
+    if world.options.dev_testing:
+        return True
+    if location_name in locations:
+        if IMPLEMENTATION_STATUS not in locations[location_name]:
+            return True
+        return locations[location_name][IMPLEMENTATION_STATUS] == IMPLEMENTED
     
+    if location_name.endswith("First Entering"):
+        room_name = location_name.replace(" First Entering", "")
+        if room_name in rooms:
+            if LOCATION_IMPLEMENTATION_STATUS not in rooms[room_name]:
+                return True
+            return rooms[room_name][LOCATION_IMPLEMENTATION_STATUS] == IMPLEMENTED
+
+    return True

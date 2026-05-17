@@ -1717,6 +1717,7 @@ red_rooms = {
         ],
         OUTER_ROOM_KEY: False,
         ROOM_CHESS_PIECE_KEY: CHESS_PIECE_NONE,
+        LOCATION_IMPLEMENTATION_STATUS: NOT_IMPLEMENTED, # Currently has issues collecting the location for some reason.
     },
     "Archives": {
         ROOM_ITEM_ID_KEY: 706,
@@ -1834,6 +1835,8 @@ black_rooms = {
 
 rooms = blue_rooms | bedrooms | hallways | green_rooms | shops | red_rooms | black_rooms
 
+# These are here to make sure that location ids are deterministic.
+# Previously used hash() of the room name, but that was not deterministic (for some reason)
 other_areas = {
     "Campsite": {
         ROOM_ITEM_ID_KEY: 901,
