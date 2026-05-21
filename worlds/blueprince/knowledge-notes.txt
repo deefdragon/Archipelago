@@ -1,5 +1,62 @@
 Darkroom + Utility Closet + Magnifying Glass -> Orchard Gate Code
 Mail Room + Office + Terminal Password + Lab + Letter Triggers -> VAC Controls
-Chapel -> Tomb Puzzle 1
+Chapel Stained Glass -> Tomb Puzzle 1
 All 8 sigils' postcards -> 8 realms in 8 months
 Herbert's Will -> Tomb Puzzle 2
+Staff Notice (Commissary, Security) + Magnifying -> Terminal Password
+With?/Without? (Commissary) -> Hint Towards Painting Pairs
+Pump Room + Aquarium -> File Cabinet Keys
+Security Note -> Blue Memos True, Red Memos Lies
+Security Note + Magnifying Glass -> Handwritten Red Memos True
+Security + Attic Monitors Clue -> HSS password
+Labratory Temp Diagram -> Freezer Thaw
+Labratory Periodic Table + ? + Boiler Power -> Blackbridge Access
+Blackbridge (with password access) -> Electronic Mail for other Terminals besides Office
+
+??? -> Cloister Secret (don't remember where this is learned)
+
+A New Clue (page 13) -> Lor = Word, Jor = Name
+Safehouse Train Route Puzzle -> Scorch Sundial
+
+Patio Black Note + Nook Black Note + Office Note + Pantry Note -> buried beside west bridge -> Microchip 1
+Music Sheet 5 (Greenhouse) + Music Sheet 8 (Workshop) -> Conservatory Floorplan
+
+Room 46 frozen clocks/Clock Tower -> Sacred Hour
+
+Safes:
+Room Painting Pairs -> if we count small gates 8 dates open 8 safes
+Drawing Room Paintings + Room Painting Pairs -> Drawing Room Safe
+Boudoir Photo + Room Painting Pairs -> Boudoir Safe
+Office Book Order + Foyer Statues + Room Painting Pairs -> Office Safe
+
+Knowledge From Terminal Network Acces:
+Any -> Current Date (for Shelter Safe)
+
+Non-Knowledge Docs:
+
+Hallway Red Note
+Guest Bedroom Letter
+Entry Hall Letters
+Entry Hall Black Note
+Barons Bafflers
+Storeroom Swim Bird
+West Wing Hall Staff Notice
+Reddington Postcard
+Garage Note
+Parlor Letter
+Drawing Room Black Note
+Safe Red Letters
+Commissary Red Note
+Cloister Note
+Allowance Note
+Bunk Room Journal
+Hovel Notice of Termination
+Gardener's Logbook
+The Red Prince
+The Fixed Stars
+Annual Maid's Day Sale
+Security Red Note
+Security Blue Note
+Lab Tech Letter
+Lab Blue Power Memo
+Office Emails 1 & 3
