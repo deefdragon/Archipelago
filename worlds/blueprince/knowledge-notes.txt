@@ -67,6 +67,7 @@ Clocktower Note -> Coffin = Black
 Clocktower Fragment -> Flowers + "-|-" pattern
 Drafting Strategy Vol. 2 -> "Academia isn't only found in the mountains of Corarica" -> Corarica = Academic
 Foreman's Logs -> Orindia = Black
+Secret Garden Sigil -> full Orindia Sigil
 
 Non-Knowledge Docs:
 

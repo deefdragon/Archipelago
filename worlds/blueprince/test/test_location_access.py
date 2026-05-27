@@ -10,6 +10,7 @@ class TestLocationAccess(BluePrinceTestBase):
     options = {
         "room_draft_sanity": True,
         "goal_type": GoalType.option_room46,
+        "dev_testing": True,
     }
 
     def test_all_location_ids_unique(self):
@@ -40,3 +41,12 @@ class TestLocationAccess(BluePrinceTestBase):
         pass # Not implemented yet
         # self.collect_by_name(["Burning Glass", "Workshop", "MAGNIFYING GLASS", "Library", "METAL DETECTOR"])
         # self.assertTrue(self.can_reach_location("Burning Glass First Craft"), "Burning Glass should be reachable after having the required items")
+
+    def test_bunk_rooms_have_same_item(self):
+        from Fill import distribute_items_restrictive
+        distribute_items_restrictive(self.multiworld)
+        loc1 = self.world.get_location("Bunk Room First Entering").item
+        loc2 = self.world.get_location("Bunk Room First Entering 2").item
+        self.assertIsNotNone(loc1, "Bunk Room First Entering should have an item")
+        self.assertIsNotNone(loc2, "Bunk Room First Entering 2 should have an item")
+        self.assertEqual(loc1.name, loc2.name, "Bunk Room First Entering and Bunk Room First Entering 2 should have the same item") # type: ignore
