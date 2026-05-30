@@ -183,3 +183,11 @@ class TestRegionAccess(BluePrinceTestBase):
         self.collect_by_name("Showroom")
         self.assertTrue(self.can_reach_region("Showroom"), "Showroom should be reachable after having the Showroom item")
         self.assertTrue(self.can_reach_location("CHRONOGRAPH First Pickup"), "CHRONOGRAPH First Pickup should be reachable after having the Showroom item")
+
+    def test_edge_case_regions_reachable(self) -> None:
+        self.collect_all_but([])
+        self.can_reach_region('Tunnel Area Past Basement key Door')
+        self.can_reach_region('Tunnel Area Past Blue Door') # shortcut testing all regions in Tunnel Area by just testing the end and the first one that was causing issues
+        self.can_reach_region('Trophy Room')
+        self.can_reach_region('Gift Shop')
+        self.can_reach_region('Treasure Trove')
