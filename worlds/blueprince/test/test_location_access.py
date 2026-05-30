@@ -1,4 +1,5 @@
 from BaseClasses import CollectionState, Location
+from ..rules import CanReachItemLocation
 from ..options import GoalType
 from ..test import BluePrinceTestBase
 from ..data_rooms import rooms, core_rooms
@@ -20,11 +21,16 @@ class TestLocationAccess(BluePrinceTestBase):
                 self.fail(f"Duplicate location ID {id} for {name} and {mem[id]}")
             mem[id] = name
 
-    def test_can_reach_tunnel_floorplan_after_crates(self):
-        self.collect_by_name(["Laboratory", "The Pool", "Boiler Room", "Parlor", "MICROCHIP 1", "MICROCHIP 2", "MICROCHIP 3", "Garage", "Hovel", "Utility Closet", "Schoolhouse", "SHOVEL", "SLEDGE HAMMER", "Workshop", "MAGNIFYING GLASS", "METAL DETECTOR", "Library", "Burning Glass"])
+    def test_can_reach_tunnel_after_crates(self):
+        self.collect_by_name(["Laboratory", "The Pool", "Boiler Room", "Parlor", "MICROCHIP 1", "MICROCHIP 2", "MICROCHIP 3", "Garage", "Hovel", "Utility Closet", "Schoolhouse", "SHOVEL", "SLEDGE HAMMER", "Workshop", "MAGNIFYING GLASS", "METAL DETECTOR", "Library", "Burning Glass", "Blackbridge Grotto", "Apple Orchard", "Satellite Dish"])
         self.debug_print_regions_items_locations(True)
+        self.assertRuleTrue(CanReachItemLocation("MICROCHIP 1"), "Should be able to reach MICROCHIP 1 after having the required rooms") # type: ignore
+        self.assertRuleTrue(CanReachItemLocation("MICROCHIP 2"), "Should be able to reach MICROCHIP 2 after having the required rooms") # type: ignore
+        self.assertTrue(self.can_reach_region("Blackbridge Grotto"), "Should be able to reach Blackbridge Grotto after having the required rooms")
+        self.assertRuleTrue(CanReachItemLocation("MICROCHIP 3"), "Should be able to reach MICROCHIP 3 after having the required rooms") # type: ignore
+
         self.assertTrue(self.can_reach_location("Raise Satellite"), "Raise Satellite should be reachable after having the microchips and burning glass")
-        self.assertTrue(self.can_reach_region("Tunnel Area Past Crates"), "Tunnel Floorplan should be reachable after having crate experiment")
+        self.assertTrue(self.can_reach_region("Tunnel Area Past Crates"), "Tunnel Area Past Crates should be reachable after having crate experiment")
 
     def test_can_reach_compass(self):
         return # Not implemented yet

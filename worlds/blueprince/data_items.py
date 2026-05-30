@@ -563,15 +563,41 @@ bookshop_items = {
     },
 }
 
+permanent_unlocks = {
+    "Blackbridge Grotto": {
+        ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
+        ITEM_ID_KEY: 6001,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
+    },
+    "Gemstone Caverns": {
+        ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
+        ITEM_ID_KEY: 6002,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
+    },
+    "Apple Orchard": {
+        ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
+        ITEM_ID_KEY: 6003,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
+    },
+    "Satellite Dish": {
+        ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
+        ITEM_ID_KEY: 6004,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
+    },
+    "West Gate Path": {
+        ITEM_ELEMENT_INDEX_KEY: NO_ITEM_ELEMENT_INDEX,
+        ITEM_ID_KEY: 6005,
+        ITEM_ITEM_CLASSIFICATION_KEY: ItemClassification.progression,
+    },
+}
+
 shop_items = gift_shop_items | bookshop_items | showroom_items | armory_items
 
 # 
 # Items to add:
 # 
-# Orchard Gate?
-#
 
-all_items_excluding_upgrade_items = upgrade_disks | keys | workshop_items | shop_items | other_items
+all_items_excluding_upgrade_items = upgrade_disks | keys | workshop_items | shop_items | other_items | permanent_unlocks
 all_items = all_items_excluding_upgrade_items | upgrade_items
 
 #############################

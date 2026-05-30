@@ -295,16 +295,17 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
     campsite.connect(
         apple_orchard,
         "Campsite To Apple Orchard",
+        Has("Apple Orchard"),
     )
     campsite.connect(
         gemstone_cavern,
         "Campsite To Gemstone Cavern",
-        (CanReachRegion("Utility Closet")),
+        Has("Gemstone Caverns"),
     )  # Rules of are found in office emails. Solution is in office emails. May be able to adjust pattern?
     private_drive.connect(
         blakbridge_grotto,
         "Private Drive To Blackbridge Grotto",
-        (CanReachRegion("Boiler Room") & CanReachRegion("Laboratory")),
+        Has("Blackbridge Grotto"),
     )
     private_drive.connect(grounds, "Private Drive To Grounds")
     blakbridge_grotto.connect(
@@ -444,6 +445,11 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         grounds,
         "West Path To Grounds",
     )
+    grounds.connect(
+        west_path,
+        "Grounds To West Path",
+        Has("West Gate Path"),
+    )
     tomb.connect(
         catacombs,
         "Tomb to Catacombs",
@@ -487,7 +493,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
         tunnel_area_post_crates,
         "Tunnel Area Entrance To Tunnel Area Post Crates",
         And(
-            Has("Satellite Raised"),
+            Has("Satellite Dish"),
             Or(
                 CanReachRegion("Laboratory"),
                 CanReachRegion("Blackbridge Grotto"),

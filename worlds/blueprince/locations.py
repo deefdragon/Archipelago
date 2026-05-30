@@ -404,20 +404,6 @@ def create_events(world: BluePrinceWorld) -> None:
         item_type=items.BluePrinceItem,
     )
 
-    world.get_region("Apple Orchard").add_event(
-        "Raise Satellite",
-        "Satellite Raised",
-        And(
-            *[CanReachItemLocation(x) for x in ["MICROCHIP 1", "MICROCHIP 2", "MICROCHIP 3"]],
-            Or(
-                CanReachItemLocation("Burning Glass"),
-                CanReachItemLocation("TORCH")
-            )
-        ),
-        location_type=BluePrinceLocation,
-        item_type=items.BluePrinceItem,
-    )
-
     # Chess Piece Access Rules
     for k, v in rooms.items():
         if v[ROOM_CHESS_PIECE_KEY] == CHESS_PIECE_NONE:

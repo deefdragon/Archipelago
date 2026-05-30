@@ -241,7 +241,7 @@ class AdvancedExperimentRule(Rule["BluePrinceWorld"], game="Blue Prince"):
 
     @override
     def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
-        return And(CanReachRegion("Laboratory"), Has("Satellite Raised"), options=extreme_logic_filter).resolve(world)
+        return And(Or(CanReachRegion("Laboratory"), CanReachRegion("Blackbridge Grotto"),), Has("Satellite Dish"), options=extreme_logic_filter).resolve(world)
 
 prev_trading_post_offers : set[str] = set()
 @dataclasses.dataclass()

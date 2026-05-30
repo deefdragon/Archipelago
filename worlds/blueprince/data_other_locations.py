@@ -1578,6 +1578,7 @@ misc_locations = {
     "Gasline Valve - Orchard": {
         LOCATION_ID_KEY: all_areas["Apple Orchard"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Apple Orchard",
+        LOCATION_RULE_SIMPLE_COMMON: Has("Apple Orchard"),
     },
     "Gasline Valve - Schoolhouse": {
         LOCATION_ID_KEY: all_areas["Schoolhouse"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -1597,6 +1598,17 @@ misc_locations = {
         LOCATION_RULE_SIMPLE_COMMON: Or(
             CanReachItemLocation("Burning Glass"),
             CanReachItemLocation("TORCH")
+        ),
+        IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+    },
+    "Raise Satellite": {
+        LOCATION_ID_KEY: all_areas["Apple Orchard"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,
+        LOCATION_ROOM_KEY: "Apple Orchard",
+        LOCATION_RULE_SIMPLE_COMMON: And(
+            CanReachLocation("Scorch Sundial"),
+            CanReachItemLocation("MICROCHIP 1"),
+            CanReachItemLocation("MICROCHIP 2"),
+            CanReachItemLocation("MICROCHIP 3"),
         ),
         IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
     },
@@ -1636,6 +1648,11 @@ misc_locations = {
         ),
         IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
     },
+    "Laboratory Puzzle": {
+        LOCATION_ID_KEY: all_areas["Laboratory"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
+        LOCATION_ROOM_KEY: "Laboratory",
+        LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Boiler Room"),
+    }
 }
 
 # TODO-1: add locations for other stuff later.
@@ -1654,7 +1671,6 @@ misc_locations = {
 
 # Gallery painting puzzles
 # Boiler solve
-# Blackbridge Opened (Labratory Puzzle)
 # Well Drained
 # Pool Drained
 # Room Upgrades

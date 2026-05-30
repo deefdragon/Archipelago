@@ -473,6 +473,9 @@ def create_all_items(world: BluePrinceWorld) -> None:
     else:
         to_precollect += data_rooms.progressive_classroom
 
+    permanent_additions = [world.create_item(k) for k in permanent_unlocks]
+    itempool += permanent_additions
+
     # remove anything that isn't implemented yet
     for item in to_precollect.copy():
         if not is_implemented(item.name, world):

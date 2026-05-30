@@ -20,7 +20,6 @@ class TestRegionAccess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Entrance Hall"))
         self.assertTrue(self.can_reach_region("Grounds"))
         self.assertTrue(self.can_reach_region("Private Drive"))
-        self.assertTrue(self.can_reach_region("Apple Orchard"))
         self.assertTrue(self.can_reach_region("Tunnel Area Entrance"))
 
     # def test_inner_rooms_requires_room_item(self) -> None:
@@ -43,7 +42,7 @@ class TestRegionAccess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Garage"), "Garage should be reachable after collecting at least 1 I piece and at least 1 J piece as items")
 
     def test_outer_room_requires_garage_utility_closet(self) -> None:
-        self.collect_all_but(["Garage", "Utility Closet", "Boiler Room"])
+        self.collect_all_but(["Garage", "Utility Closet", "Boiler Room", "West Gate Path"])
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Utility Closet as an item")
         self.collect_by_name("Utility Closet")
         self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Garage as an item")
@@ -51,7 +50,7 @@ class TestRegionAccess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("Outer Room"), "Outer Room should be reachable after collecting the Garage as an item")
     
     def test_outer_room_requires_garage_boiler_room(self) -> None:
-        self.collect_all_but(["Garage", "The Pool", "Boiler Room", "Utility Closet"])
+        self.collect_all_but(["Garage", "The Pool", "Boiler Room", "Utility Closet", "West Gate Path"])
         if not self.multiworld.state.has("Garage", self.player):
             self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Garage as an item")
             self.collect_by_name("Garage")
@@ -62,6 +61,12 @@ class TestRegionAccess(BluePrinceTestBase):
             self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the Boiler Room as an item")
             self.collect_by_name("Boiler Room")
         self.assertTrue(self.can_reach_region("Outer Room"), "Outer Room should be reachable after collecting the Garage as an item")
+
+    def test_outer_room_requires_west_gate_path(self) -> None:
+        self.collect_all_but(["Garage", "West Gate Path"])
+        self.assertFalse(self.can_reach_region("Outer Room"), "Outer Room should not be reachable without having the West Gate Path as an item")
+        self.collect_by_name("West Gate Path")
+        self.assertTrue(self.can_reach_region("Outer Room"), "Outer Room should be reachable after collecting the West Gate Path as an item")
 
     def test_outer_rooms_require_room_item(self) -> None:
         self.collect_by_name("Hallway")
@@ -79,35 +84,27 @@ class TestRegionAccess(BluePrinceTestBase):
             self.collect_by_name(room)
             self.assertTrue(self.can_reach_region(room), f"{room} should be reachable after collecting the room as an item")
     
-    def test_gemstone_cavern_requires_utility_closet(self) -> None:
-        self.assertFalse(self.can_reach_region("Gemstone Cavern"), "Gemstone Caverns should not be reachable without having the Utility Closet as an item")
-        self.collect_by_name("Utility Closet")
-        self.assertTrue(self.can_reach_region("Gemstone Cavern"), "Gemstone Caverns should be reachable after collecting the Utility Closet as an item")
+    def test_gemstone_cavern_requires_gemstone_caverns(self) -> None:
+        self.assertFalse(self.can_reach_region("Gemstone Cavern"), "Gemstone Caverns should not be reachable without having the Gemstone Caverns as an item")
+        self.collect_by_name("Gemstone Caverns")
+        self.assertTrue(self.can_reach_region("Gemstone Cavern"), "Gemstone Caverns should be reachable after collecting the Gemstone Caverns as an item")
 
-    def test_blackbridge_grotto_requires_boiler_room_and_laboratory(self) -> None:
-        self.collect_by_name("Hallway")
-        if not self.multiworld.state.has("The Pool", self.player):
-            self.assertFalse(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should not be reachable without having The Pool as an item")
-            self.collect_by_name("The Pool")
-        if not self.multiworld.state.has("Boiler Room", self.player):
-            self.assertFalse(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should not be reachable without having the Boiler Room as an item")
-            self.collect_by_name("Boiler Room")
-        if not self.multiworld.state.has("Laboratory", self.player):
-            self.assertFalse(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should not be reachable without having the Laboratory as an item")
-            self.collect_by_name("Laboratory")
-        self.debug_print_regions_items_locations()
-        self.assertTrue(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should be reachable after collecting the Boiler Room as an item")
+    def test_blackbridge_grotto_requires_blackbridge_grotto_item(self) -> None:
+        self.assertFalse(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should not be reachable without having the Blackbridge Grotto as an item")
+        self.collect_by_name("Blackbridge Grotto")
+        self.assertTrue(self.can_reach_region("Blackbridge Grotto"), "Blackbridge Grotto should be reachable after collecting the Blackbridge Grotto as an item")
 
     def test_the_precipice_requires_gas_valves(self) -> None:
-        self.collect_by_name("Hallway")
-        self.collect_by_name("Pantry")
         self.assertFalse(self.can_reach_region("The Precipice"), "The Precipice should not be reachable without having all Gas Valves")
-        self.collect_by_name("Garage")
-        self.collect_by_name("Utility Closet")
+        self.collect_by_name("Apple Orchard")
         self.assertFalse(self.can_reach_region("The Precipice"), "The Precipice should not be reachable without having all Gas Valves")
+        self.collect_by_name("Gemstone Caverns")
+        self.assertFalse(self.can_reach_region("The Precipice"), "The Precipice should not be reachable without having all Gas Valves")
+        self.collect_by_name("West Gate Path")
         self.collect_by_name("Schoolhouse")
         self.assertFalse(self.can_reach_region("The Precipice"), "The Precipice should not be reachable without having all Gas Valves")
         self.collect_by_name("Hovel")
+        self.debug_print_regions_items_locations(True)
         self.assertTrue(self.can_reach_region("The Precipice"), "The Precipice should be reachable after having all Gas Valves")
     
     def test_orindian_ruins_requires_microchips(self) -> None:
@@ -136,10 +133,7 @@ class TestRegionAccess(BluePrinceTestBase):
         self.assertTrue(self.can_reach_region("The Underpass"), "The Underpass should be reachable after having the Reservoir on both sides")
     
     def test_aries_court_requires_chess_pieces(self) -> None:
-        self.collect_by_name("Garage")
-        self.collect_by_name("Utility Closet")
-        self.collect_by_name("Schoolhouse")
-        self.collect_by_name("Hovel")
+        self.collect_by_name(["West Gate Path", "Apple Orchard", "Gemstone Caverns", "Schoolhouse", "Hovel"])
         # Precipice
 
         if not self.multiworld.state.has("Chess Piece King", self.player):
