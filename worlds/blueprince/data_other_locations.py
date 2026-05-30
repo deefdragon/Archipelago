@@ -458,7 +458,7 @@ standard_item_pickup = {
             UpgradedRoomRule("Patio", "Spare Patio"),
             options=extreme_logic_filter
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "BROKEN LEVER First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 3, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -494,7 +494,7 @@ standard_item_pickup = {
             DigSpotRule(),
             options=rare_logic_filter
         ) | DarkRoomRule() | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Spare Greenroom"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "COIN PURSE First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 4, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -519,7 +519,7 @@ standard_item_pickup = {
             ]],
             options=rare_logic_filter
         ) | LavatoryRule() | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Her Ladyship's Spare Room") | UpgradedRoomRule("Spare Room", "Spare Master Bedroom"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "COMPASS First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 5, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -544,7 +544,7 @@ standard_item_pickup = {
             CanReachRegion("Den"), CanReachRegion("Trophy Room"),
             options=rare_logic_filter
         ) | TrunkRule() | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Her Ladyship's Spare Room") | UpgradedRoomRule("Spare Room", "Spare Master Bedroom") | UpgradedRoomRule("Spare Room", "Spare Terrace"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "COUPON BOOK First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 6, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -567,7 +567,7 @@ standard_item_pickup = {
             CanReachRegion("Den"), CanReachRegion("Pantry"),
             options=rare_logic_filter
         ) | AdvancedExperimentRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "GEAR WRENCH First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 7, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -576,7 +576,7 @@ standard_item_pickup = {
         LOCATION_RULE_SIMPLE_COMMON: Or(
             CanReachRegion("Toolshed"), CanReachRegion("Lost & Found"),
         ) | AdvancedExperimentRule() | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "HALL PASS First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 8, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -597,7 +597,7 @@ standard_item_pickup = {
                 "Lost & Found",
             ]]
         ) | AdvancedExperimentRule() | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "LOCK PICK KIT First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 9, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -620,7 +620,7 @@ standard_item_pickup = {
         ) | CanReachRegion("Garage", options=rare_logic_filter) |
         TrunkRule() | CarTrunkRule() | DarkRoomRule() |
         AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Servant's Spare Quarters") | UpgradedRoomRule("Spare Room", "Her Ladyship's Spare Room") | UpgradedRoomRule("Spare Room", "Spare Master Bedroom") | UpgradedRoomRule("Spare Room", "Spare Bedroom"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "LUCKY RABBIT'S FOOT First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 10, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -640,7 +640,7 @@ standard_item_pickup = {
             CanReachRegion("Gallery"), CanReachRegion("Den"), CanReachRegion("Ballroom"),
             options=rare_logic_filter
         ) | LavatoryRule() | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Her Ladyship's Spare Room") | UpgradedRoomRule("Spare Room", "Spare Bedroom") | UpgradedRoomRule("Spare Room", "Spare Servant's Quarters"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "MAGNIFYING GLASS First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 11, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -681,7 +681,7 @@ standard_item_pickup = {
             CanReachRegion("Den"), CanReachRegion("Drawing Room"),
             options=rare_logic_filter
         ) | CarTrunkRule() | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Spare Foyer"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "METAL DETECTOR First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 12, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -708,13 +708,13 @@ standard_item_pickup = {
             CanReachRegion("Garage"), CanReachRegion("Boiler Room"),
             options=rare_logic_filter
         ) | AdvancedExperimentRule() | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Veranda"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "REPELLENT First Pickup": {
         LOCATION_ID_KEY: all_areas["Lost & Found"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,
         LOCATION_ROOM_KEY: "Lost & Found",
         LOCATION_ITEM_KEY: "REPELLENT",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "RUNNING SHOES First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 14, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -736,7 +736,7 @@ standard_item_pickup = {
             ]]
         ) | CanReachRegion("Garage", options=rare_logic_filter) |
         AdvancedExperimentRule() | UpgradedRoomRule("Mail Room", "Freight Mail") | UpgradedRoomRule("Spare Room", "Spare Servant's Quarters"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SALT SHAKER First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 15, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -755,7 +755,7 @@ standard_item_pickup = {
             CanReachRegion("Pantry"), CanReachRegion("Kitchen"),
             options=rare_logic_filter
         ) | AdvancedExperimentRule() | TradingPostRule("SALT SHAKER") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SHOVEL First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 16, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -795,7 +795,7 @@ standard_item_pickup = {
             options=rare_logic_filter
         ) | TradingPostRule("SHOVEL") | SpiralOfStarsRule() | # Also from AdvancedExperimentRule, but that requires SHOVEL
         UpgradedRoomRule("Mail Room", "Freight Mail") | UpgradedRoomRule("Spare Room", "Spare Greenroom") | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Veranda") | UpgradedRoomRule("Spare Room", "Spare Terrace"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SLEDGE HAMMER First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 17, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -827,7 +827,7 @@ standard_item_pickup = {
             options=rare_logic_filter
         ) | AdvancedExperimentRule() | TradingPostRule("SLEDGE HAMMER") | SpiralOfStarsRule() | 
         UpgradedRoomRule("Mail Room", "Freight Mail") | UpgradedRoomRule("Spare Room", "Spare Foyer") | UpgradedRoomRule("Spare Room", "Spare Hall"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SLEEPING MASK First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 18, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -846,7 +846,7 @@ standard_item_pickup = {
             ]]
         ) | AdvancedExperimentRule() | SpiralOfStarsRule() | 
         UpgradedRoomRule("Spare Room", "Her Ladyship's Spare Room") | UpgradedRoomRule("Spare Room", "Spare Bedroom") | UpgradedRoomRule("Spare Room", "Spare Master Bedroom") | UpgradedRoomRule("Spare Room", "Spare Servant's Quarters"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "STOPWATCH First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 19, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -858,7 +858,7 @@ standard_item_pickup = {
             CanReachItemLocation("Jack Hammer"), DigSpotRule(),
             options=rare_logic_filter
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "TELESCOPE First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 20, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -871,7 +871,7 @@ standard_item_pickup = {
             ]]
         ) | AdvancedExperimentRule() | SpiralOfStarsRule() | 
         UpgradedRoomRule("Spare Room", "Her Ladyship's Spare Room"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "TREASURE MAP First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 21, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -895,7 +895,7 @@ standard_item_pickup = {
             options=rare_logic_filter
         ) | TrunkRule() | CarTrunkRule() | LavatoryRule() |
         UpgradedRoomRule("Spare Room", "Spare Foyer") | UpgradedRoomRule("Spare Room", "Spare Secret Passage"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "WATERING CAN First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 22, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -905,7 +905,7 @@ standard_item_pickup = {
             CanReachRegion("Greenhouse"), CanReachRegion("Toolshed"), CanReachRegion("Hovel"), CanReachRegion("Lost & Found")
         ) | AdvancedExperimentRule() | SpiralOfStarsRule() |
         UpgradedRoomRule("Spare Room", "Spare Greenroom") | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Veranda") | UpgradedRoomRule("Spare Room", "Spare Terrace"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
 }
 
@@ -915,7 +915,7 @@ special_key_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         LOCATION_ITEM_KEY: "BASEMENT KEY",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Antechamber") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "CAR KEYS First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 31, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -943,7 +943,7 @@ special_key_pickup = {
             options=rare_logic_filter
         ) | TrunkRule() | AdvancedExperimentRule() | SpiralOfStarsRule() | 
         UpgradedRoomRule("Spare Room", "Spare Bedroom") | UpgradedRoomRule("Spare Room", "Spare Patio") | UpgradedRoomRule("Spare Room", "Spare Servant's Quarters"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "KEY 8 First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 32, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -952,7 +952,7 @@ special_key_pickup = {
         LOCATION_RULE_SIMPLE_COMMON: Or(
             CanReachRegion("Gallery"), CanReachRegion("Lost & Found", options=complex_logic_filter), # Lost & Found: Day 365+
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "KEYCARD First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 33, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -980,7 +980,7 @@ special_key_pickup = {
                 "Locker Room",
             ]]
         ) | CarTrunkRule() | DarkRoomRule() | TrunkRule() | AdvancedExperimentRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "PRISM KEY_0 First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 34, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -993,7 +993,7 @@ special_key_pickup = {
             Or(CanReachItemLocation("Burning Glass"), CanReachItemLocation("TORCH")),
             options=complex_logic_filter
         ) | PlanetariumRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SECRET GARDEN KEY First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 35, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -1002,7 +1002,7 @@ special_key_pickup = {
         LOCATION_RULE_SIMPLE_COMMON: Or(
             CanReachRegion("Attic"), CanReachRegion("Music Room"), CanReachRegion("Lost & Found"), CanReachRegion("Locksmith"), CanReachRegion("Billiard Room")
         ) | DigSpotRule() | CarTrunkRule() | TrunkRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SILVER KEY First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 36, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -1024,7 +1024,7 @@ special_key_pickup = {
             CanReachItemLocation("PRISM KEY_0"),
             options=complex_logic_filter
         ) | TrunkRule() | AdvancedExperimentRule() | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     # Not included since it is only used in the room it spawn in in both cases
     # "Wind-up Key First Pickup": {
@@ -1044,42 +1044,42 @@ showroom_item_pickup = {
         LOCATION_ROOM_KEY: "Campsite",
         # LOCATION_ITEM_KEY: "CHRONOGRAPH",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Showroom") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "EMERALD BRACELET First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 41, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Campsite",
         # LOCATION_ITEM_KEY: "EMERALD BRACELET",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Showroom") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "MASTER KEY First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 42, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Campsite",
         # LOCATION_ITEM_KEY: "MASTER KEY",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Showroom") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "MOON PENDANT First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 43, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Campsite",
         # LOCATION_ITEM_KEY: "MOON PENDANT",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Showroom") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "ORNATE COMPASS First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 44, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Campsite",
         # LOCATION_ITEM_KEY: "ORNATE COMPASS",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Showroom") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "SILVER SPOON First Pickup": {
         LOCATION_ID_KEY: all_areas["Campsite"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 45, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Campsite",
         # LOCATION_ITEM_KEY: "SILVER SPOON",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Showroom") | SpiralOfStarsRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
 }
 
@@ -1088,7 +1088,7 @@ unique_item_pickup = {
         LOCATION_ID_KEY: all_areas["Room 46"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 6,
         LOCATION_ROOM_KEY: "Room 46",
         LOCATION_ITEM_KEY: "CROWN",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "CURSED EFFIGY First Pickup": {
         LOCATION_ID_KEY: all_areas["Shrine"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -1100,33 +1100,33 @@ unique_item_pickup = {
             ),
             CanReachRegion("Gift Shop")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "DIARY KEY First Pickup": {
         LOCATION_ID_KEY: all_areas["Her Ladyship's Chamber"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Her Ladyship's Chamber",
         LOCATION_ITEM_KEY: "DIARY KEY",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "KEY of Aries First Pickup": {
         LOCATION_ID_KEY: all_areas["Aries Court"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Aries Court",
         LOCATION_ITEM_KEY: "KEY of Aries",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "LUNCH BOX First Pickup": {
         LOCATION_ID_KEY: all_areas["Dining Room"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Dining Room",
         LOCATION_ITEM_KEY: "LUNCH BOX",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Gift Shop"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "MICROCHIP 1 First Pickup": {
         LOCATION_ID_KEY: all_areas["West Path"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "West Path",
         LOCATION_ITEM_KEY: "MICROCHIP 1",
         LOCATION_RULE_SIMPLE_COMMON: CanReachItemLocation("SHOVEL"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "MICROCHIP 2 First Pickup": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 10,
@@ -1135,19 +1135,19 @@ unique_item_pickup = {
         LOCATION_RULE_SIMPLE_COMMON: Or(
             CanReachItemLocation("SLEDGE HAMMER"), CanReachItemLocation("MORNING STAR")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "MICROCHIP 3 First Pickup": {
         LOCATION_ID_KEY: all_areas["Blackbridge Grotto"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Blackbridge Grotto",
         LOCATION_ITEM_KEY: "MICROCHIP 3",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "PAPER CROWN First Pickup": {
         LOCATION_ID_KEY: all_areas["Closed Exhibit"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
         LOCATION_ROOM_KEY: "Closed Exhibit",
         LOCATION_ITEM_KEY: "PAPER CROWN",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "ROYAL SCEPTER First Pickup": {
         LOCATION_ID_KEY: all_areas["Treasure Trove"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
@@ -1156,7 +1156,7 @@ unique_item_pickup = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachRegion("Shrine"), CanReachItemLocation("KEY of Aries")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     }
 }
 
@@ -1170,7 +1170,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("MAGNIFYING GLASS"), CanReachItemLocation("METAL DETECTOR")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Detector Shovel First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 2,
@@ -1179,7 +1179,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("SHOVEL"), CanReachItemLocation("METAL DETECTOR")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Dowsing Rod First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 3,
@@ -1188,7 +1188,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("SHOVEL"), CanReachItemLocation("COMPASS")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Power Hammer First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 4,
@@ -1197,7 +1197,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("SLEDGE HAMMER"), CanReachItemLocation("BROKEN LEVER"), CanReachItemLocation("BATTERY PACK")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Electromagnet First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 5,
@@ -1206,7 +1206,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("COMPASS"), CanReachItemLocation("BATTERY PACK")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Lucky Purse First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 6,
@@ -1215,7 +1215,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("COIN PURSE"), CanReachItemLocation("LUCKY RABBIT'S FOOT")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Jack Hammer First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 7,
@@ -1224,7 +1224,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("SHOVEL"), CanReachItemLocation("BATTERY PACK"), CanReachItemLocation("BROKEN LEVER")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Pick Sound Amplifier First Craft": {
         LOCATION_ID_KEY: all_areas["Workshop"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 8,
@@ -1233,7 +1233,7 @@ workshop_contraptions = {
         LOCATION_RULE_SIMPLE_COMMON: And(
             CanReachItemLocation("LOCK PICK KIT"), CanReachItemLocation("METAL DETECTOR")
         ),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
 }
 
@@ -1332,7 +1332,7 @@ vault_keys = {
                 "Music Room",
             ]]
         ) | DigSpotRule() | CanReachRegion("Trophy Room", options=rare_logic_filter) | AdvancedExperimentRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Vault Key 233": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 5, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -1348,7 +1348,7 @@ vault_keys = {
                 "Music Room",
             ]]
         ) | DigSpotRule() | LavatoryRule() | AdvancedExperimentRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Vault Key 304": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 6, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
@@ -1362,14 +1362,14 @@ vault_keys = {
                 "Hovel",
             ]
         ]) | DigSpotRule() | CanReachRegion("Drawing Room", options=rare_logic_filter) | UpgradedRoomRule("Spare Room", "Spare Hall"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "Vault Key 370": {
         LOCATION_ID_KEY: all_areas["Entrance Hall"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 7, # Doesn't spawn there, but putting it there and adding spawn locations as requirements
         LOCATION_ROOM_KEY: "Entrance Hall",
         LOCATION_ITEM_KEY: "VAULT KEY 370",
         LOCATION_RULE_SIMPLE_COMMON: CanReachRegion("Lost & Found") | DigSpotRule(),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
 }
 
@@ -1432,20 +1432,20 @@ file_cabinet_keys = {
         LOCATION_ROOM_KEY: "Patio",
         LOCATION_ITEM_KEY: "CABINET KEY 1",
         LOCATION_RULE_SIMPLE_COMMON: CanReachItemLocation("SHOVEL"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "File Cabinet Key - Laundry Room": {
         LOCATION_ID_KEY: all_areas["Laundry Room"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 100,
         LOCATION_ROOM_KEY: "Laundry Room",
         LOCATION_ITEM_KEY: "CABINET KEY 2",
         LOCATION_RULE_SIMPLE_COMMON: CanReachItemLocation("SHOVEL"),
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
     "File Cabinet Key - Tunnel Area Past Crates": {
         LOCATION_ID_KEY: all_areas["Tunnel Area Past Crates"][ROOM_ITEM_ID_KEY] * ROOM_MULTIPLIER + 1,
         LOCATION_ROOM_KEY: "Tunnel Area Past Crates",
         LOCATION_ITEM_KEY: "CABINET KEY 3",
-        # IMPLEMENTATION_STATUS: NOT_IMPLEMENTED,
+        
     },
 }
 
