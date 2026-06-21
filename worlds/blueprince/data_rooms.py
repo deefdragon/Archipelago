@@ -1717,7 +1717,6 @@ red_rooms = {
         ],
         OUTER_ROOM_KEY: False,
         ROOM_CHESS_PIECE_KEY: CHESS_PIECE_NONE,
-        LOCATION_IMPLEMENTATION_STATUS: NOT_IMPLEMENTED, # Currently has issues collecting the location for some reason.
     },
     "Archives": {
         ROOM_ITEM_ID_KEY: 706,
@@ -1928,6 +1927,9 @@ other_areas = {
     "Outer Room": {
         ROOM_ITEM_ID_KEY: 930,
     },
+    "Tunnel Area Entrance": {
+        ROOM_ITEM_ID_KEY: 931,
+    },
 }
 
 all_areas = rooms | other_areas
@@ -1953,10 +1955,17 @@ ITEMS_BY_GROUPS |= {
     "Red Rooms": [room for room in red_rooms],
     "Black Rooms": [room for room in black_rooms],
     "Outer Rooms": [room for room in rooms if rooms[room][OUTER_ROOM_KEY]],
+
+    "4-Way Rooms": [room for room in rooms if rooms[room][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_X and room not in core_rooms],
+    "Corner Rooms": [room for room in rooms if rooms[room][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_J and room not in core_rooms and room not in classrooms and room not in ["Room 8"]] + ["KEY 8", "Progressive Classroom"],
+    "T-Shaped Rooms": [room for room in rooms if rooms[room][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_T and room not in core_rooms and room not in ["Secret Garden", "Bookshop"]] + ["SECRET GARDEN KEY"],
+    "Dead End Rooms": [room for room in rooms if rooms[room][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_D and room not in core_rooms],
+    "Straight Rooms": [room for room in rooms if rooms[room][ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_I and room not in core_rooms],
+    "Rooms": [room for room in rooms if room not in core_rooms and room not in classrooms and room not in ["Room 8", "Secret Garden", "Bookshop"]] + ["KEY 8", "SECRET GARDEN KEY", "Progressive Classroom"],
 }
 
 LOCATIONS_BY_GROUPS |= {
-    "Room Entrances": {f"{k} First Entering" for k in rooms},
+    "Room Entrances": {f"{k} First Entering" for k in rooms} | {"Bunk Room First Entering 2"},
     "Trunks": {
         # Create 100 locked trunk check locations for each room that has the ability to have locked trunks
         f"{k} Locked Trunk {idx}"

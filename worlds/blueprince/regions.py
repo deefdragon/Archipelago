@@ -183,7 +183,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                 library.connect(
                     room,
                     "Library To Bookshop",
-                    Has("Bookshop"),
+                    # Has("Bookshop"), # Item disabled atm bc the mod can't control the drafting logic for it.
                 ) # Can only be drafted from the library, so only requires having the bookshop as an item.
             elif k == "The Armory":
                 entrance_hall.connect(
@@ -250,7 +250,7 @@ def create_and_connect_regions(world: BluePrinceWorld) -> None:
                     Has("Progressive Classroom"),
                 )
 
-            elif k in ["Boiler Room", "Pump Room", "Sauna"]:
+            elif k in ["Boiler Room", "Pump Room", "Sauna", "Locker Room"]:
                 pool.connect(
                     room,
                     f"The Pool To {k}",

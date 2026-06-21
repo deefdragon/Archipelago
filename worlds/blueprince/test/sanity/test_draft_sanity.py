@@ -17,7 +17,29 @@ class TestDraftSanity(BluePrinceTestBase):
         "starting_room_amount": 3,
     }
 
+    # This is here to print region rules for debugging
+    # def test_fail_and_print_region_rule(self) -> None:
+    #     print(self.multiworld.worlds[self.player].get_region("Bedroom").entrances[0].access_rule)
+    #     self.assertTrue(False)
+
+    def test_no_duplicate_starting_rooms(self) -> None:
+        counts = {}
+        for room in self.multiworld.worlds[self.player].starting_rooms:
+            counts[room] = counts.get(room, 0) + 1
+        for room, count in counts.items():
+            self.assertEqual(count, 1, f"Starting room {room} appears {count} times, but should only appear once")
+
+    def test_room_requires_path(self) -> None:
+        self.assertFalse(self.can_reach_region("Her Ladyship's Chamber"))
+        self.collect_by_name("Her Ladyship's Chamber")
+        print(self.multiworld.worlds[self.player].get_region("Her Ladyship's Chamber").entrances[0].access_rule.explain_str(self.multiworld.state)) # type: ignore
+        self.assertFalse(self.can_reach_region("Her Ladyship's Chamber"))
+        self.collect_by_name(["Hallway", "Bedroom", "Security", "Courtyard"])
+        self.assertTrue(self.can_reach_region("Her Ladyship's Chamber"), "Should be able to reach Her Ladyship's Chamber after collecting enough rooms")
+
     def test_starting_room_count(self) -> None:
+        self.assertFalse(self.multiworld.state.has("Closet", self.player, 2), "Should not have more than 1 Closet in inventory")
+
         n = 0
         for room in rooms:
             if room in core_rooms:
@@ -61,7 +83,7 @@ class TestDraftSanity(BluePrinceTestBase):
                     self.assertTrue(state.can_reach_region("Secret Garden", 1))
                     self.assertTrue(state.can_reach_region("Room 8", 1))
                     for room in data_other_locations.directory_rooms:
-                        if room not in ["Gift Shop", "Treasure Trove", "Trophy Room"]:
+                        if room not in ["Gift Shop", "Treasure Trove", "Trophy Room", "Bookshop"]:
                             self.assertTrue(state.has(room, self.player), f"Expected to have {room} in inventory for player {self.player}")
                 self.assertTrue(sphere or self.multiworld.worlds[1].options.accessibility == "minimal",
                                 f"Unreachable locations: {locations}")

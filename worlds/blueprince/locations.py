@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from logging import debug
+import warnings
 from typing import TYPE_CHECKING, List, Optional
 from rule_builder.rules import *
 
@@ -15,7 +16,7 @@ from .constants import *
 
 from .data_rooms import rooms, blue_rooms, core_rooms
 from .data_items import armory_items
-from .data_other_locations import locations, keys, floorplans, shop_items, trophies, sanctum_keys, aries_court_mora_jai_boxes
+from .data_other_locations import locations, keys, floorplans, shop_items, trophies, sanctum_keys, aries_court_mora_jai_boxes, upgrade_disks, workshop_contraptions
 from .items import BluePrinceItem
 
 if TYPE_CHECKING:
@@ -96,10 +97,28 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
             room.add_locations(locs, BluePrinceLocation)
         # Add Nth locked trunk open
 
-        trunk_count = world.options.locked_trunks_common if ROOM_CHEST_SPOT_TYPE_KEY not in v or v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_COMMON else world.options.locked_trunks_rare if v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_RARE else world.options.locked_trunks_complex
+        trunk_count = 0
+
+        if room_key in world.options.trunks.value:
+            trunk_count = world.options.trunks.value[room_key]
+
+        elif ROOM_CHEST_SPOT_TYPE_KEY not in v or v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_COMMON:
+            trunk_count = world.options.locked_trunks_common
+
+        elif v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_RARE:
+            trunk_count = world.options.locked_trunks_rare
+            
+        elif v[ROOM_CHEST_SPOT_TYPE_KEY] == ROOM_CHEST_SPOT_COMPLEX:
+            trunk_count = world.options.locked_trunks_complex
 
         trunks = [f"{room_key} Locked Trunk {idx}" for idx in range(1, trunk_count + 1) if v[ROOM_CHEST_SPOT_COUNT_KEY] > 0]
         locs = get_location_names_with_ids(trunks)
+
+        if room_key == "The Pool" and world.options.goal_type.value < 2:
+            if "The Pool" in world.options.trunks.value and world.options.trunks.value["The Pool"] > 0:
+                warnings.warn("Cannot create \"The Pool Locked Trunks\" due to current goal type; Skipping.")
+            continue # Skip The Pool locked trunks when the goal is before Gift Shop
+
         room.add_locations(locs, BluePrinceLocation)
 
         # These trunks require extra logic
@@ -112,6 +131,9 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
                 world.set_rule(world.get_location(f"The Pool Locked Trunk {idx}"), lambda state: state.can_reach_region("Gift Shop", world.player))
 
     for k, v in locations.items():
+
+        if IMPLEMENTATION_STATUS in v and v[IMPLEMENTATION_STATUS] == NOT_IMPLEMENTED:
+            continue
 
         if world.options.goal_type.value < 4 and k in ["Ascend The Throne", "Throne of the Blue Prince Mora Jai Box"]:
             continue
@@ -196,6 +218,30 @@ def create_regular_locations(world: BluePrinceWorld) -> None:
                 locations_to_setup[k] = get_location_rule(k)
                 continue
 
+        if k in upgrade_disks.keys() and world.options.upgrade_disk_sanity == False and LOCATION_ITEM_KEY in v:
+            if v[LOCATION_ITEM_KEY] != STARTING_INVENTORY:
+                # Place upgrade disks at their in-game locations when upgrade disk sanity is off.
+                reg = world.get_region(v[LOCATION_ROOM_KEY])
+                loc = BluePrinceLocation(world.player, k, None, reg)
+                loc.place_locked_item(BluePrinceItem(v[LOCATION_ITEM_KEY], ItemClassification.progression_skip_balancing, None, world.player))
+
+                reg.locations.append(loc)
+
+                locations_to_setup[k] = get_location_rule(k)
+                continue
+
+        if k in workshop_contraptions.keys() and world.options.workshop_sanity == False and LOCATION_ITEM_KEY in v:
+            if v[LOCATION_ITEM_KEY] != STARTING_INVENTORY:
+                # Place workshop contraptions at their in-game locations when workshop sanity is off.
+                reg = world.get_region(v[LOCATION_ROOM_KEY])
+                loc = BluePrinceLocation(world.player, k, None, reg)
+                loc.place_locked_item(BluePrinceItem(v[LOCATION_ITEM_KEY], ItemClassification.progression_skip_balancing, None, world.player))
+
+                reg.locations.append(loc)
+
+                locations_to_setup[k] = get_location_rule(k)
+                continue
+
         location_key = k
         locs = get_location_names_with_ids([location_key])
         world.get_region(v[LOCATION_ROOM_KEY]).add_locations(locs, BluePrinceLocation)
@@ -269,7 +315,7 @@ def attempt_to_fill_multiple_locations_with_same_item(world: BluePrinceWorld, po
                 locations.remove(loc2)
                 pool.remove(l1_item)
                 pool.remove(item)
-                print(f"Placed {item} in both Bunk Room First Entering locations to satisfy the condition that they have the same item.")
+                print(f"Placed an item in both Bunk Room First Entering locations to satisfy the condition that they have the same item.")
                 return True
             else:
                 l1_item = None

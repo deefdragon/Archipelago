@@ -423,7 +423,8 @@ def create_all_items(world: BluePrinceWorld) -> None:
     else:
         to_precollect += upgrade_disk_item_list
 
-    key_item_list = [world.create_item(k) for k in keys if (k not in sanctum_keys or world.options.goal_type.value > 1) 
+    key_item_list = [world.create_item(k) for k in keys if (k not in ["BASEMENT KEY"] or world.options.goal_type.value > 0)
+                                                            and (k not in sanctum_keys or world.options.goal_type.value > 1) 
                                                             and (k not in ["KEY of Aries"] or world.options.goal_type.value > 2)]
     if world.options.key_sanity:
         itempool += key_item_list
@@ -436,7 +437,6 @@ def create_all_items(world: BluePrinceWorld) -> None:
     else:
         to_precollect += special_shop_item_list
 
-
     giftshop_item_list = [world.create_item(k) for k in gift_shop_items]
     if world.options.special_shop_sanity and world.options.goal_type.value > 1: # Only if Goal is past room 46
         itempool += giftshop_item_list
@@ -445,14 +445,15 @@ def create_all_items(world: BluePrinceWorld) -> None:
 
     data_rooms.progressive_classroom = [world.create_item("Progressive Classroom") for _ in range(9)]
 
-    room_item_list = [world.create_item(room) for room in rooms if room not in core_rooms and room not in ["Secret Garden", "Room 8"] and room not in classrooms]
+    room_item_list = [world.create_item(room) for room in rooms if room not in core_rooms and room not in ["Secret Garden", "Room 8", "Bookshop"] and room not in classrooms]
     if world.options.room_draft_sanity:
-        world.starting_rooms = world.random.choices([room for room in room_item_list 
+        valid_rooms = [room for room in room_item_list 
                                                     if ROOM_PICK_POSITIONS_KEY in rooms[room.name] 
                                                     and (set(rooms[room.name][ROOM_PICK_POSITIONS_KEY]) & ENTRANCE_HALL_DRAFTABLE) 
-                                                    and room.name not in ["Sauna"] 
+                                                    and room.name not in ["Sauna", "Pump Room", "Closet"] 
                                                     and not (room.name in ["Treasure Trove", "Gift Shop"] and world.options.goal_type.value <= 1)
-                                                    and not (world.options.trophy_sanity == False and world.options.goal_type.value <= 1 and room.name == "Trophy Room")],
+                                                    and not (world.options.trophy_sanity == False and world.options.goal_type.value <= 1 and room.name == "Trophy Room")]
+        world.starting_rooms = world.random.sample(valid_rooms,
             k=world.options.starting_room_amount.value,
         )
         world.starting_rooms += [r for r in room_item_list if r.name == "Closet"]

@@ -36,55 +36,148 @@ class CanReachPickPosition(Rule["BluePrinceWorld"], game="Blue Prince"):
     always_have: bool = False
     @override
     def _instantiate(self, world: "BluePrinceWorld") -> Rule.Resolved:
-        return self.Resolved(self.room, self.always_have, player=world.player)
+        return self._build_rule().resolve(world)
+
+        # return self.Resolved(self.room, self.always_have, player=world.player)
     
-    class Resolved(Rule.Resolved):
-        room : str
-        always_have: bool = False
-        @override
-        def _evaluate(self, state: CollectionState) -> bool:
-            if not self.always_have and self.room not in core_rooms and not state.has(self.room, self.player):
-                return False
-            
-            room_data = rooms[self.room]
-            
-            positions_types = room_data[ROOM_PICK_POSITIONS_KEY]
-
-            inventory = {
-                ROOM_LAYOUT_TYPE_X: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_X], self.player),
-                ROOM_LAYOUT_TYPE_T: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_T], self.player),
-                ROOM_LAYOUT_TYPE_I: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_I], self.player),
-                ROOM_LAYOUT_TYPE_J: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_J], self.player),
-            }
-
-            total_inventory = sum(inventory.values())
-
-            if (room_data[ROOM_LAYOUT_TYPE_KEY] in inventory and inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] > 0):
-                inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] -= 1
-
-            for pt in positions_types:
-                if pt not in POSITION_MINIMUM_PIECES or total_inventory < POSITION_MINIMUM_TOTAL_PIECES[pt]:
-                    continue
-                if self.matches_minimum_inventory(POSITION_MINIMUM_PIECES[pt], inventory):
-                    return True
-                
-            return False
+    def _build_rule(self) -> Rule:
+        rule_has : Rule
+        if not self.always_have and self.room not in core_rooms:
+            rule_has = Has(self.room)
+        else:
+            rule_has = True_()
         
-        def matches_minimum_inventory(self, required: list[tuple[int, int, int, int]], inventory: dict[str, int]) -> bool:
-            inv = tuple(inventory[k] for k in inventory)
-            for req in required:
-                if all(inv[i] >= req[i] for i in range(4)):
-                    return True
-                
-            return False
+        room_data = rooms[self.room]
+            
+        positions_types = room_data[ROOM_PICK_POSITIONS_KEY]
 
-        @override
-        def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
-            return [
-                {"type": "text", "text": "Use pre-calculated tables to determine if a the pick position for  "},
-                {"type": "color", "color": "green" if state and self(state) else "salmon", "text": self.room},
-                {"type": "text", "text": "is reachable with the current inventory."},
-            ]
+        pos_types_rule : Rule = False_()
+        for pt in positions_types:
+            if pt not in POSITION_MINIMUM_PIECES:
+                continue
+
+            min_total = POSITION_MINIMUM_TOTAL_PIECES[pt]
+            if room_data[ROOM_LAYOUT_TYPE_KEY] != ROOM_LAYOUT_TYPE_D:
+                min_total -= 1
+            
+            pt_rule = False_()
+
+            min_rule = HasGroup("Rooms", count=min_total) if min_total > 0 else True_()
+
+            min_layouts = POSITION_MINIMUM_PIECES[pt]
+            
+            if room_data[ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_X:
+                for layout in min_layouts:
+                    pt_rule |= And(HasGroup("4-Way Rooms", count=max(layout[0]-1, 0)) if layout[0]-1 > 0 else True_(), # TODO: remove the turnaries when 0.6.8 comes out
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=layout[3]) if layout[3] > 0 else True_())
+                    # TODO: remove this if we ever are able to add Bookshop as an item
+                    pt_rule |= And(Has("Library"),
+                            HasGroup("4-Way Rooms", count=max(layout[0]-1, 0)) if layout[0]-1 > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=max(layout[3]-1, 0)) if layout[3]-1 > 0 else True_())
+            elif room_data[ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_T:
+                for layout in min_layouts:
+                    pt_rule |= And(HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=max(layout[1]-1, 0)) if layout[1]-1 > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=layout[3]) if layout[3] > 0 else True_())
+                    # TODO: remove this if we ever are able to add Bookshop as an item
+                    pt_rule |= And(Has("Library"),
+                            HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=max(layout[1]-1, 0)) if layout[1]-1 > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=max(layout[3]-1, 0)) if layout[3]-1 > 0 else True_())
+            elif room_data[ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_I:
+                for layout in min_layouts:
+                    pt_rule |= And(HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=max(layout[2]-1, 0)) if layout[2]-1 > 0 else True_(),
+                            HasGroup("Corner Rooms", count=layout[3]) if layout[3] > 0 else True_())
+                    # TODO: remove this if we ever are able to add Bookshop as an item
+                    pt_rule |= And(Has("Library"),
+                            HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=max(layout[2]-1, 0)) if layout[2]-1 > 0 else True_(),
+                            HasGroup("Corner Rooms", count=max(layout[3]-1, 0)) if layout[3]-1 > 0 else True_())
+            elif room_data[ROOM_LAYOUT_TYPE_KEY] == ROOM_LAYOUT_TYPE_J:
+                for layout in min_layouts:
+                    pt_rule |= And(HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=max(layout[3]-1, 0)) if layout[3]-1 > 0 else True_())
+                    # TODO: remove this if we ever are able to add Bookshop as an item
+                    pt_rule |= And(Has("Library"),
+                            HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=max(layout[3]-2, 0)) if layout[3]-2 > 0 else True_())
+            else:
+                for layout in min_layouts:
+                    pt_rule |= And(HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=layout[3]) if layout[3] > 0 else True_())
+                    # TODO: remove this if we ever are able to add Bookshop as an item
+                    pt_rule |= And(Has("Library"),
+                            HasGroup("4-Way Rooms", count=layout[0]) if layout[0] > 0 else True_(),
+                            HasGroup("T-Shaped Rooms", count=layout[1]) if layout[1] > 0 else True_(),
+                            HasGroup("Straight Rooms", count=layout[2]) if layout[2] > 0 else True_(),
+                            HasGroup("Corner Rooms", count=max(layout[3]-1, 0)) if layout[3]-1 > 0 else True_())
+
+            pos_types_rule |= min_rule & pt_rule
+        
+        return rule_has & pos_types_rule
+        
+    # class Resolved(Rule.Resolved):
+    #     room : str
+    #     always_have: bool = False
+    #     @override
+    #     def _evaluate(self, state: CollectionState) -> bool:
+    #         if not self.always_have and self.room not in core_rooms and not state.has(self.room, self.player):
+    #             return False
+            
+    #         room_data = rooms[self.room]
+            
+    #         positions_types = room_data[ROOM_PICK_POSITIONS_KEY]
+
+    #         inventory = {
+    #             ROOM_LAYOUT_TYPE_X: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_X], self.player),
+    #             ROOM_LAYOUT_TYPE_T: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_T], self.player),
+    #             ROOM_LAYOUT_TYPE_I: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_I], self.player),
+    #             ROOM_LAYOUT_TYPE_J: state.count_from_list(room_layout_lists[ROOM_LAYOUT_TYPE_J], self.player),
+    #         }
+
+    #         total_inventory = sum(inventory.values())
+
+    #         if (room_data[ROOM_LAYOUT_TYPE_KEY] in inventory and inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] > 0):
+    #             inventory[room_data[ROOM_LAYOUT_TYPE_KEY]] -= 1
+
+    #         for pt in positions_types:
+    #             if pt not in POSITION_MINIMUM_PIECES or total_inventory < POSITION_MINIMUM_TOTAL_PIECES[pt]:
+    #                 continue
+    #             if self.matches_minimum_inventory(POSITION_MINIMUM_PIECES[pt], inventory):
+    #                 return True
+                
+    #         return False
+        
+    #     def matches_minimum_inventory(self, required: list[tuple[int, int, int, int]], inventory: dict[str, int]) -> bool:
+    #         inv = tuple(inventory[k] for k in inventory)
+    #         for req in required:
+    #             if all(inv[i] >= req[i] for i in range(4)):
+    #                 return True
+                
+    #         return False
+
+    #     @override
+    #     def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
+    #         return [
+    #             {"type": "text", "text": "Use pre-calculated tables to determine if a the pick position for  "},
+    #             {"type": "color", "color": "green" if state and self(state) else "salmon", "text": self.room},
+    #             {"type": "text", "text": "is reachable with the current inventory."},
+    #         ]
 
 @dataclasses.dataclass()
 class CanReachItemLocation(Rule["BluePrinceWorld"], game="Blue Prince"):
@@ -108,10 +201,10 @@ class CanReachItemLocation(Rule["BluePrinceWorld"], game="Blue Prince"):
                 return (Has(self.location) & CanReachLocation(loc_name, parent_region_name=self.parent_region_name)).resolve(world)
         
         if self.location in workshop_items:
-            if f"{self.location} First Craft" in locations and IMPLEMENTATION_STATUS in locations[f"{self.location} First Craft"] and locations[f"{self.location} First Craft"][IMPLEMENTATION_STATUS] == NOT_IMPLEMENTED:
-                return locations[f"{self.location} First Craft"][LOCATION_RULE_SIMPLE_COMMON].resolve(world)
+            if f"{self.location} First Pickup" in locations and IMPLEMENTATION_STATUS in locations[f"{self.location} First Pickup"] and locations[f"{self.location} First Pickup"][IMPLEMENTATION_STATUS] == NOT_IMPLEMENTED:
+                return locations[f"{self.location} First Pickup"][LOCATION_RULE_SIMPLE_COMMON].resolve(world)
             else:
-                return (Has(self.location) & CanReachLocation(f"{self.location} First Craft", parent_region_name="Workshop")).resolve(world)
+                return (Has(self.location) & CanReachLocation(f"{self.location} First Pickup", parent_region_name="Workshop")).resolve(world)
 
         if self.location in armory_items:
             return (Has(self.location) & CanReachRegion("The Armory")).resolve(world)
